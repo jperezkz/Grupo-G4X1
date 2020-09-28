@@ -1,0 +1,4 @@
+-I/home/noel/Robotica/ejemplo1
+-o
+/home/noel/Robotica/ejemplo1/moc_ejemplo1.cpp
+/home/noel/Robotica/ejemplo1/ejemplo1.h

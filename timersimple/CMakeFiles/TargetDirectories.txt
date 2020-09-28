@@ -1,0 +1,7 @@
+/home/noel/Robotica/timersimple/CMakeFiles/install/strip.dir
+/home/noel/Robotica/timersimple/CMakeFiles/install.dir
+/home/noel/Robotica/timersimple/CMakeFiles/list_install_components.dir
+/home/noel/Robotica/timersimple/CMakeFiles/rebuild_cache.dir
+/home/noel/Robotica/timersimple/CMakeFiles/edit_cache.dir
+/home/noel/Robotica/timersimple/CMakeFiles/install/local.dir
+/home/noel/Robotica/timersimple/CMakeFiles/ejemplo1.dir

@@ -1,0 +1,6 @@
+/snap/clion/126/bin/cmake/linux/bin/cmake -G "CodeBlocks - Unix Makefiles" /home/noel/Robotica/ejemplo1
+-- COMPILING WITH QT5
+-- Generating header file from counterDlg.ui
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/noel/Robotica/ejemplo1
