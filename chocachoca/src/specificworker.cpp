@@ -18,7 +18,7 @@
  */
 #include "specificworker.h"
 
-#define TAM 50;
+#define TAM 50
 
 /**
 * \brief Default constructor
@@ -56,10 +56,23 @@ bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 	return true;
 }
 
+void SpecificWorker::initializeMap()
+{
+    for(int i=-2500; i<=2500; i++) {
+        for (int j = -2500; j <= 2500; j++){
+            mapR[key(i, j)] = false;
+        }
+    }
+}
+
 void SpecificWorker::initialize(int period)
 {
 	std::cout << "Initialize worker" << std::endl;
 	this->Period = period;
+
+	// Inicializar el mapa
+	initializeMap();
+
 	if(this->startup_check_flag)
 	{
 		this->startup_check();
@@ -68,12 +81,11 @@ void SpecificWorker::initialize(int period)
 	{
 		timer.start(Period);
 	}
-
 }
 
-void SpecificWorker::key(int x, int y, clave &coord)
+clave SpecificWorker::key(int x, int y)
 {
-    return std::make_pair(int(x/))
+    return std::make_pair((int)x/TAM, (int)y/TAM);
 }
 
 void SpecificWorker::compute()
@@ -90,6 +102,8 @@ void SpecificWorker::compute()
 	    //sort laser data from small to large distances using a lambda function.
         std::sort( ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b){ return     a.dist < b.dist; });
         differentialrobot_proxy->getBasePose(x, y, alpha);
+        if(!mapR[key(x, y)])
+            mapR[key(x, y)] = true;
         
 	if( ldata.front().dist < threshold)
 	{

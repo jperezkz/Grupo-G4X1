@@ -45,7 +45,8 @@ public:
 
 
 public slots:
-	void key(int x, int y);
+    void initializeMap();
+    clave key(int x, int y);
 	void compute();
 	int startup_check();
 	void initialize(int period);
