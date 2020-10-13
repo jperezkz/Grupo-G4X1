@@ -19,6 +19,9 @@
 #include "specificworker.h"
 
 #define TAM 50
+#define SECTIONS 2
+#define CSeccion 2500
+int section;
 
 /**
 * \brief Default constructor
@@ -58,9 +61,13 @@ bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 
 void SpecificWorker::initializeMap()
 {
-    for(int i=-2500; i<=2500; i++) {
-        for (int j = -2500; j <= 2500; j++){
-            mapR[key(i, j)] = false;
+    clave p;
+
+    for(int i=-TAM; i<=TAM; i++) {
+        for (int j = -TAM; j <= TAM; j++){
+            p.first = i + 50;
+            p.second = j + 50;
+            mapR[p] = false;
         }
     }
 }
@@ -85,35 +92,167 @@ void SpecificWorker::initialize(int period)
 
 clave SpecificWorker::key(int x, int y)
 {
-    return std::make_pair((int)x/TAM, (int)y/TAM);
+    return std::make_pair((int)(x/TAM + 50), (int)(y/TAM + 50));
+}
+/*
+int SpecificWorker::calculoCoste(clave p)
+ {
+    clave pObj;
+    int x, y;
+    int mCoste = 100, coste;
+
+    for(int i=0; i<=50; i++) {
+        for (int j = 0; j <= 50; j++){
+            pObj.first = i;
+            pObj.second = j;
+            if(!mapR[pObj]){
+                x = pObj.first - p.first;
+                y = pObj.second - p.second;
+                coste = fabs(x) + fabs(y);
+                if (coste < mCoste)
+                    mCoste = coste;
+            }
+        }
+    }
+    return mCoste;
+}
+*/
+
+void SpecificWorker::marcarCeldas(clave p)
+{
+    mapR[p] = true; //x y
+    p.second++;
+    mapR[p] = true; //x y+1
+    p.first++;
+    p.second--;
+    mapR[p] = true; //x+1 y
+    p.first--;
+    p.second--;
+    mapR[p] = true; //x y-1
+    p.first--;
+    p.second++;
+    mapR[p] = true; //x-1 y
+}
+
+int SpecificWorker::getLocation(clave p)
+{
+    int s = 1;
+
+    if(p.first > 50) s = 4;
+    if(p.second > 50) s = 2;
+    if(p.first > 50 && p.second > 50) s = 3;
+
+    return s;
+}
+
+float SpecificWorker::calculoRot(RoboCompLaser::TLaserData rdata)
+{
+    float mediaIzq, mediaDer;
+    float rot;
+
+    for (int i = 0; i < 50; i++) {
+        mediaDer += rdata[i].dist;
+        mediaIzq += rdata[i + 50].dist;
+    }
+    mediaDer /= 50;
+    mediaIzq /= 50;
+
+    if (mediaIzq >= mediaDer)
+        rot = -1.6;
+    else
+        rot = 1.6;
+
+        return rot;
+}
+
+bool SpecificWorker::calcularSeccion(int x, int y)
+{
+    int secX = 0, secY = 0, topeX = 50, topeY = 50;
+    int contVis=0;
+    clave sec = key(x,y);
+    clave pair;
+    float porcentaje;
+
+    switch (getLocation(sec)) {
+        case 2:
+            secY += 50;
+            topeY += 50;
+            break;
+        case 3:
+            secX += 50;
+            topeX += 50;
+            secY += 50;
+            topeY += 50;
+            break;
+        case 4:
+            secX += 50;
+            topeX += 50;
+            break;
+    }
+
+    while(secX<=topeX){
+        while(secY<=topeY){
+            pair = std::make_pair(secX, secY);
+            if (mapR[pair])
+                contVis ++;
+            secY++;
+        }
+        secY -= 50;
+        secX++;
+    }
+    porcentaje = (contVis * 100) / CSeccion;
+    std::cout << "Estamos en la seccion [" << sec.first <<"] ["<< sec.second <<"] con un " << porcentaje << "%" << endl;
+
+    return  porcentaje > 20;
 }
 
 void SpecificWorker::compute()
 {
     const float threshold = 200; // millimeters
-    float rot = -0.6;  // rads per second
+    float rot;  // rads per second
     float alpha;
     int x, y;
+    clave p, sec;
 
-    try
-    {
-    	// read laser data 
-        RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData(); 
-	    //sort laser data from small to large distances using a lambda function.
-        std::sort( ldata.begin(), ldata.end(), [](RoboCompLaser::TData a, RoboCompLaser::TData b){ return     a.dist < b.dist; });
+    try {
+        // read laser data
+        RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
+        //sort laser data from small to large distances using a lambda function.
+        std::sort(ldata.begin(), ldata.end(),
+                  [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
         differentialrobot_proxy->getBasePose(x, y, alpha);
-        if(!mapR[key(x, y)])
-            mapR[key(x, y)] = true;
+        p = key(x, y);
+
+        marcarCeldas(p);
+        //std::cout << "La celda [" << p.first << "][" << p.second <<"] ha sido visitada" << std::endl;
+        //std::cout << "Angulo: " << alpha << endl;
         
 	if( ldata.front().dist < threshold)
 	{
 		std::cout << ldata.front().dist << std::endl;
+		//calculoCoste(p);
+		if(calcularSeccion(x, y)) {
+            std::cout <<"Ya estaria"<<endl;
+            std::cout <<"Seccion: " << section << endl;
+            section = 0;
+		}
+		else{
+		    std::cout << "Seguir visitando"<<endl;
+		    section = getLocation(p);
+            std::cout <<"Seccion: " << section << endl;
+		}
+        RoboCompLaser::TLaserData rdata = laser_proxy->getLaserData();
+        rot = calculoRot(rdata);
  		differentialrobot_proxy->setSpeedBase(5, rot);
 		usleep(rand()%(1500000-100000 + 1) + 100000);  // random wait between 1.5s and 0.1sec
 	}
 	else
 	{
-		differentialrobot_proxy->setSpeedBase(200, 0); 
+	    if(getLocation(p) != section && section != 0){
+            differentialrobot_proxy->setSpeedBase(5, 2);
+            std::cout << "Esta girando para volver a la seccion "<< section << endl;
+	    }
+	    differentialrobot_proxy->setSpeedBase(800, 0);
   	}
     }
     catch(const Ice::Exception &ex)

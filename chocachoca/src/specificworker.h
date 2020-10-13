@@ -47,6 +47,11 @@ public:
 public slots:
     void initializeMap();
     clave key(int x, int y);
+    int getLocation(clave p);
+    //int calculoCoste(clave p);
+    void marcarCeldas(clave p);
+    bool calcularSeccion(int x, int y);
+    float calculoRot(RoboCompLaser::TLaserData rdata);
 	void compute();
 	int startup_check();
 	void initialize(int period);
