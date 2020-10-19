@@ -21,7 +21,10 @@
 #define TAM 50
 #define SECTIONS 2
 #define CSeccion 2500
-int section;
+int section = 1;
+float sections[4] = {0, 0, 0, 0};
+int per = 25;
+bool flag;
 
 /**
 * \brief Default constructor
@@ -94,29 +97,6 @@ clave SpecificWorker::key(int x, int y)
 {
     return std::make_pair((int)(x/TAM + 50), (int)(y/TAM + 50));
 }
-/*
-int SpecificWorker::calculoCoste(clave p)
- {
-    clave pObj;
-    int x, y;
-    int mCoste = 100, coste;
-
-    for(int i=0; i<=50; i++) {
-        for (int j = 0; j <= 50; j++){
-            pObj.first = i;
-            pObj.second = j;
-            if(!mapR[pObj]){
-                x = pObj.first - p.first;
-                y = pObj.second - p.second;
-                coste = fabs(x) + fabs(y);
-                if (coste < mCoste)
-                    mCoste = coste;
-            }
-        }
-    }
-    return mCoste;
-}
-*/
 
 void SpecificWorker::marcarCeldas(clave p)
 {
@@ -158,11 +138,11 @@ float SpecificWorker::calculoRot(RoboCompLaser::TLaserData rdata)
     mediaIzq /= 50;
 
     if (mediaIzq >= mediaDer)
-        rot = -1.6;
+        rot = -2;
     else
-        rot = 1.6;
+        rot = 2;
 
-        return rot;
+    return rot;
 }
 
 bool SpecificWorker::calcularSeccion(int x, int y)
@@ -172,8 +152,9 @@ bool SpecificWorker::calcularSeccion(int x, int y)
     clave sec = key(x,y);
     clave pair;
     float porcentaje;
+    int s = getLocation(sec);
 
-    switch (getLocation(sec)) {
+    switch (s) {
         case 2:
             secY += 50;
             topeY += 50;
@@ -201,9 +182,10 @@ bool SpecificWorker::calcularSeccion(int x, int y)
         secX++;
     }
     porcentaje = (contVis * 100) / CSeccion;
-    std::cout << "Estamos en la seccion [" << sec.first <<"] ["<< sec.second <<"] con un " << porcentaje << "%" << endl;
+    std::cout << "Estamos en la seccion [" << s <<"] con un " << porcentaje << "%" << endl;
+    sections[s - 1] = porcentaje;
 
-    return  porcentaje > 20;
+    return  porcentaje > per;
 }
 
 void SpecificWorker::compute()
@@ -221,38 +203,44 @@ void SpecificWorker::compute()
         std::sort(ldata.begin(), ldata.end(),
                   [](RoboCompLaser::TData a, RoboCompLaser::TData b) { return a.dist < b.dist; });
         differentialrobot_proxy->getBasePose(x, y, alpha);
-        p = key(x, y);
-
-        marcarCeldas(p);
-        //std::cout << "La celda [" << p.first << "][" << p.second <<"] ha sido visitada" << std::endl;
-        //std::cout << "Angulo: " << alpha << endl;
         
+        p = key(x, y);
+        marcarCeldas(p);
+
 	if( ldata.front().dist < threshold)
 	{
 		std::cout << ldata.front().dist << std::endl;
-		//calculoCoste(p);
-		if(calcularSeccion(x, y)) {
-            std::cout <<"Ya estaria"<<endl;
-            std::cout <<"Seccion: " << section << endl;
-            section = 0;
+        section = getLocation(p);
+		RoboCompLaser::TLaserData rdata = laser_proxy->getLaserData();
+		if(rdata[50].dist > rdata[0].dist && rdata[50].dist > rdata[99].dist && (rdata[0].dist < threshold && rdata[99].dist < threshold)){
+            differentialrobot_proxy->setSpeedBase(5, 2);
+            usleep(rand()%(2000000 + 1) + 100000);  //wait between 2s
 		}
-		else{
-		    std::cout << "Seguir visitando"<<endl;
-		    section = getLocation(p);
-            std::cout <<"Seccion: " << section << endl;
-		}
-        RoboCompLaser::TLaserData rdata = laser_proxy->getLaserData();
-        rot = calculoRot(rdata);
- 		differentialrobot_proxy->setSpeedBase(5, rot);
-		usleep(rand()%(1500000-100000 + 1) + 100000);  // random wait between 1.5s and 0.1sec
+		else {
+            rot = calculoRot(rdata);
+            differentialrobot_proxy->setSpeedBase(5, rot);
+            usleep(rand() % (500000 - 100000 + 1) + 100000);  // random wait between 0.5s and 0.1sec
+        }
 	}
 	else
 	{
-	    if(getLocation(p) != section && section != 0){
-            differentialrobot_proxy->setSpeedBase(5, 2);
-            std::cout << "Esta girando para volver a la seccion "<< section << endl;
+	    if(getLocation(p) != section){
+	        if(calcularSeccion(x, y)) {
+	            flag = true;
+	            for(int i=0; i<4; i++){
+	                if(sections[i] < per){
+	                    flag = false;
+	                }
+	            }
+	            if(flag) per += 10;
+                std::cout << "Esta girando para salir de la seccion " << section << endl;
+                section = getLocation(p);
+                differentialrobot_proxy->setSpeedBase(5, 2);
+                usleep(rand()%(2000000 + 1) + 100000);  //wait between 2s
+            }
 	    }
-	    differentialrobot_proxy->setSpeedBase(800, 0);
+	    else
+	    	differentialrobot_proxy->setSpeedBase(800, 0);
   	}
     }
     catch(const Ice::Exception &ex)

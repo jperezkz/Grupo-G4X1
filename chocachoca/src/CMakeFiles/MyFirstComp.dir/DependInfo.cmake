@@ -4,20 +4,20 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CommonBehavior.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/CommonBehavior.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/DifferentialRobot.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/DifferentialRobot.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/GenericBase.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/GenericBase.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/Laser.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/Laser.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/MyFirstComp_autogen/mocs_compilation.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/MyFirstComp_autogen/mocs_compilation.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/commonbehaviorI.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/commonbehaviorI.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/genericmonitor.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/genericmonitor.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/genericworker.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/genericworker.cpp.o"
-  "/home/salabeta/robocomp/classes/qlog/qlog.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/home/salabeta/robocomp/classes/qlog/qlog.cpp.o"
-  "/home/salabeta/robocomp/classes/rapplication/rapplication.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/home/salabeta/robocomp/classes/rapplication/rapplication.cpp.o"
-  "/home/salabeta/robocomp/classes/sigwatch/sigwatch.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/home/salabeta/robocomp/classes/sigwatch/sigwatch.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/main.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/main.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/specificmonitor.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/specificmonitor.cpp.o"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/specificworker.cpp" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/specificworker.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CommonBehavior.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/CommonBehavior.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/DifferentialRobot.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/DifferentialRobot.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/GenericBase.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/GenericBase.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/Laser.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/Laser.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/MyFirstComp_autogen/mocs_compilation.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/MyFirstComp_autogen/mocs_compilation.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/commonbehaviorI.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/commonbehaviorI.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/genericmonitor.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/genericmonitor.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/genericworker.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/genericworker.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/main.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/main.cpp.o"
+  "/opt/robocomp/classes/qlog/qlog.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/opt/robocomp/classes/qlog/qlog.cpp.o"
+  "/opt/robocomp/classes/rapplication/rapplication.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/opt/robocomp/classes/rapplication/rapplication.cpp.o"
+  "/opt/robocomp/classes/sigwatch/sigwatch.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/opt/robocomp/classes/sigwatch/sigwatch.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/specificmonitor.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/specificmonitor.cpp.o"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/specificworker.cpp" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CMakeFiles/MyFirstComp.dir/specificworker.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
@@ -26,7 +26,6 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "QT_CORE_LIB"
   "QT_GUI_LIB"
   "QT_NETWORK_LIB"
-  "QT_NO_DEBUG"
   "QT_OPENGL_LIB"
   "QT_SQL_LIB"
   "QT_WIDGETS_LIB"
@@ -42,9 +41,9 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/robocomp/include"
   "/classes"
   "."
-  "/home/salabeta/robocomp/classes"
-  "/home/salabeta/robocomp/libs"
-  "/home/salabeta/robocomp/interfaces"
+  "/opt/robocomp/classes"
+  "/opt/robocomp/libs"
+  "/opt/robocomp/interfaces"
   "/include"
   "/usr/include/x86_64-linux-gnu/qt5"
   "/usr/include/x86_64-linux-gnu/qt5/QtGui"
@@ -60,10 +59,10 @@ set(CMAKE_CXX_TARGET_INCLUDE_PATH
 
 # Pairs of files generated by the same build rule.
 set(CMAKE_MULTIPLE_OUTPUT_PAIRS
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CommonBehavior.h" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/CommonBehavior.cpp"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/DifferentialRobot.h" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/DifferentialRobot.cpp"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/GenericBase.h" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/GenericBase.cpp"
-  "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/Laser.h" "/home/salabeta/robocomp/components/Grupo-G4X1/chocachoca/src/Laser.cpp"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CommonBehavior.h" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/CommonBehavior.cpp"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/DifferentialRobot.h" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/DifferentialRobot.cpp"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/GenericBase.h" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/GenericBase.cpp"
+  "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/Laser.h" "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/chocachoca/src/Laser.cpp"
   )
 
 
