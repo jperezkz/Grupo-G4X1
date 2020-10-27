@@ -1,0 +1,15 @@
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles/install/strip.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles/install/local.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles/list_install_components.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles/install.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/install/strip.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/install/local.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/install.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/list_install_components.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_src.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/edit_cache.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/rebuild_cache.dir
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir

@@ -21,6 +21,30 @@
 /**
 * \brief Default constructor
 */
+struct Target{
+    float x;
+    float y;
+    bool active = false;
+    mutable std::mutex mutex;
+    void put(float x_, float y_){
+        mutex.lock();
+          x = x_;
+          y = y_;
+          active = true;
+          mutex.unlock();
+    }
+
+    std::optional<std::tuple<float, float>> get(){
+        std::lock_guard(std::mutex & mutex);
+
+        if (active)
+            return std::make_tuple(x, y);
+        else
+            return ;
+    }
+};
+Target target;
+
 SpecificWorker::SpecificWorker(TuplePrx tprx, bool startup_check) : GenericWorker(tprx)
 {
 	this->startup_check_flag = startup_check;
@@ -72,19 +96,21 @@ void SpecificWorker::initialize(int period)
 void SpecificWorker::compute()
 {
 	//computeCODE
-	//QMutexLocker locker(mutex);
-	//try
-	//{
-	//  camera_proxy->getYImage(0,img, cState, bState);
-	//  memcpy(image_gray.data, &img[0], m_width*m_height*sizeof(uchar));
-	//  searchTags(image_gray);
-	//}
-	//catch(const Ice::Exception &e)
-	//{
-	//  std::cout << "Error reading from Camera" << e << std::endl;
-	//}
-	
-	
+	QMutexLocker locker(mutex);
+	try
+	{
+	  camera_proxy->getYImage(0,img, cState, bState);
+	  memcpy(image_gray.data, &img[0], m_width*m_height*sizeof(uchar));
+	  searchTags(image_gray);
+	}
+	catch(const Ice::Exception &e)
+	{
+	  std::cout << "Error reading from Camera" << e << std::endl;
+	}
+
+	if(auto t = target.get(); t.has_value()){
+	    auto [x, y] = t.value();
+	}
 }
 
 int SpecificWorker::startup_check()
@@ -99,7 +125,8 @@ int SpecificWorker::startup_check()
 void SpecificWorker::RCISMousePicker_setPick(RoboCompRCISMousePicker::Pick myPick)
 {
 //subscribesToCODE
-
+    std::cout << "Coordenada X: " << myPick.x << endl;
+    std::cout << "Coordenada Z: " << myPick.z << endl;
 }
 
 
