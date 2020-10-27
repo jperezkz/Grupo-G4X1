@@ -7,8 +7,8 @@ set(CMAKE_DEPENDS_GENERATOR "Unix Makefiles")
 # The top level Makefile was generated from the following files:
 set(CMAKE_MAKEFILE_DEPENDS
   "CMakeCache.txt"
-  "/home/noel/robocomp/cmake/modules/qt.cmake"
-  "/home/noel/robocomp/cmake/robocomp.cmake"
+  "/home/salabeta/robocomp/cmake/modules/qt.cmake"
+  "/home/salabeta/robocomp/cmake/robocomp.cmake"
   "../CMakeLists.txt"
   "CMakeFiles/3.17.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.17.3/CMakeCXXCompiler.cmake"
@@ -187,7 +187,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
-  "src/CMakeFiles/ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_src.dir/DependInfo.cmake"
   "src/CMakeFiles/MyFirstComponent.dir/DependInfo.cmake"
+  "src/CMakeFiles/ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_src.dir/DependInfo.cmake"
   "src/CMakeFiles/MyFirstComponent_autogen.dir/DependInfo.cmake"
   )

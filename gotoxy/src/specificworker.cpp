@@ -21,26 +21,31 @@
 /**
 * \brief Default constructor
 */
+using TPos = std::tuple<float, float>;
+
 struct Target{
-    float x;
-    float y;
+    TPos content;
     bool active = false;
-    mutable std::mutex mutex;
-    void put(float x_, float y_){
-        mutex.lock();
-          x = x_;
-          y = y_;
+    std::mutex myMutex;
+
+    void put(const TPos &data){
+        std::lock_guard<std::mutex> guard(myMutex);
+          content = data;
           active = true;
-          mutex.unlock();
     }
 
-    std::optional<std::tuple<float, float>> get(){
-        std::lock_guard(std::mutex & mutex);
-
+    std::optional<TPos> get(){
+        std::lock_guard<std::mutex> guard(myMutex);
         if (active)
-            return std::make_tuple(x, y);
+            return content;
         else
-            return ;
+            return {};
+    }
+
+    void set_task_finished()
+    {
+        std::lock_guard<std::mutex> guard(myMutex);
+        active = false;
     }
 };
 Target target;
@@ -96,6 +101,7 @@ void SpecificWorker::initialize(int period)
 void SpecificWorker::compute()
 {
 	//computeCODE
+	/*
 	QMutexLocker locker(mutex);
 	try
 	{
@@ -107,10 +113,17 @@ void SpecificWorker::compute()
 	{
 	  std::cout << "Error reading from Camera" << e << std::endl;
 	}
+    */
 
-	if(auto t = target.get(); t.has_value()){
-	    auto [x, y] = t.value();
-	}
+	TPos pos;
+	int x, y;
+	float alpha;
+
+    if(auto t = target.get(); t.has_value()){
+        pos = t.value();
+    }
+    differentialrobot_proxy->getBasePose(x, y, alpha);
+
 }
 
 int SpecificWorker::startup_check()

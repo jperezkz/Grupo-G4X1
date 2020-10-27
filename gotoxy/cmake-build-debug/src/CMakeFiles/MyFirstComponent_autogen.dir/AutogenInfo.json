@@ -1,63 +1,63 @@
 {
-	"BUILD_DIR" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen",
-	"CMAKE_BINARY_DIR" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug",
-	"CMAKE_CURRENT_BINARY_DIR" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src",
-	"CMAKE_CURRENT_SOURCE_DIR" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src",
+	"BUILD_DIR" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen",
+	"CMAKE_BINARY_DIR" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src",
 	"CMAKE_EXECUTABLE" : "/snap/clion/129/bin/cmake/linux/bin/cmake",
-	"CMAKE_SOURCE_DIR" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy",
+	"CMAKE_SOURCE_DIR" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy",
 	"DEP_FILE" : "",
 	"DEP_FILE_RULE_NAME" : "",
 	"HEADERS" : 
 	[
 		[
-			"/home/noel/robocomp/classes/qlog/qlog.h",
+			"/home/salabeta/robocomp/classes/qlog/qlog.h",
 			"MU",
-			"V2JLPWAXRS/moc_qlog.cpp"
+			"EQ62L5TKVX/moc_qlog.cpp"
 		],
 		[
-			"/home/noel/robocomp/classes/rapplication/rapplication.h",
+			"/home/salabeta/robocomp/classes/rapplication/rapplication.h",
 			"MU",
-			"KIMNBLNCZE/moc_rapplication.cpp"
+			"DLFNUU7AK7/moc_rapplication.cpp"
 		],
 		[
-			"/home/noel/robocomp/classes/sigwatch/sigwatch.h",
+			"/home/salabeta/robocomp/classes/sigwatch/sigwatch.h",
 			"MU",
-			"MXU573DSOF/moc_sigwatch.cpp"
+			"BM3K3POHI5/moc_sigwatch.cpp"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/commonbehaviorI.h",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/commonbehaviorI.h",
 			"MU",
 			"EWIEGA46WW/moc_commonbehaviorI.cpp"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/genericmonitor.h",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/genericmonitor.h",
 			"MU",
 			"EWIEGA46WW/moc_genericmonitor.cpp"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/genericworker.h",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/genericworker.h",
 			"MU",
 			"EWIEGA46WW/moc_genericworker.cpp"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/rcismousepickerI.h",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/rcismousepickerI.h",
 			"MU",
 			"EWIEGA46WW/moc_rcismousepickerI.cpp"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificmonitor.h",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificmonitor.h",
 			"MU",
 			"EWIEGA46WW/moc_specificmonitor.cpp"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificworker.h",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificworker.h",
 			"MU",
 			"EWIEGA46WW/moc_specificworker.cpp"
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
-	"INCLUDE_DIR" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen/include",
-	"MOC_COMPILATION_FILE" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen/mocs_compilation.cpp",
+	"INCLUDE_DIR" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen/include",
+	"MOC_COMPILATION_FILE" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen/mocs_compilation.cpp",
 	"MOC_DEFINITIONS" : 
 	[
 		"ICE_CPP11_MAPPING",
@@ -79,14 +79,14 @@
 	],
 	"MOC_INCLUDES" : 
 	[
-		"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src",
-		"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src",
+		"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src",
+		"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src",
 		"/opt/robocomp/include",
 		"/classes",
-		"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug",
-		"/home/noel/robocomp/classes",
-		"/home/noel/robocomp/libs",
-		"/home/noel/robocomp/interfaces",
+		"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug",
+		"/home/salabeta/robocomp/classes",
+		"/home/salabeta/robocomp/libs",
+		"/home/salabeta/robocomp/interfaces",
 		"/include",
 		"/usr/include/x86_64-linux-gnu/qt5",
 		"/usr/include/x86_64-linux-gnu/qt5/QtGui",
@@ -117,57 +117,54 @@
 		"-c",
 		"/snap/clion/129/bin/cmake/linux/share/cmake-3.17/Modules/CMakeCXXCompilerABI.cpp"
 	],
-	"MOC_PREDEFS_FILE" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen/moc_predefs.h",
+	"MOC_PREDEFS_FILE" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/MyFirstComponent_autogen/moc_predefs.h",
 	"MOC_RELAXED_MODE" : false,
 	"MOC_SKIP" : [],
 	"MULTI_CONFIG" : false,
-	"PARALLEL" : 4,
-	"PARSE_CACHE_FILE" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/ParseCache.txt",
+	"PARALLEL" : 8,
+	"PARSE_CACHE_FILE" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/ParseCache.txt",
 	"QT_MOC_EXECUTABLE" : "/usr/lib/qt5/bin/moc",
 	"QT_UIC_EXECUTABLE" : "/usr/lib/qt5/bin/uic",
 	"QT_VERSION_MAJOR" : 5,
 	"QT_VERSION_MINOR" : 12,
-	"SETTINGS_FILE" : "/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/AutogenUsed.txt",
+	"SETTINGS_FILE" : "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/AutogenUsed.txt",
 	"SOURCES" : 
 	[
-		[ "/home/noel/robocomp/classes/qlog/qlog.cpp", "MU" ],
-		[ "/home/noel/robocomp/classes/rapplication/rapplication.cpp", "MU" ],
-		[ "/home/noel/robocomp/classes/sigwatch/sigwatch.cpp", "MU" ],
+		[ "/home/salabeta/robocomp/classes/qlog/qlog.cpp", "MU" ],
+		[ "/home/salabeta/robocomp/classes/rapplication/rapplication.cpp", "MU" ],
+		[ "/home/salabeta/robocomp/classes/sigwatch/sigwatch.cpp", "MU" ],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/commonbehaviorI.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/commonbehaviorI.cpp",
 			"MU"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/genericmonitor.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/genericmonitor.cpp",
 			"MU"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/genericworker.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/genericworker.cpp",
 			"MU"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/main.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/main.cpp",
 			"MU"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/rcismousepickerI.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/rcismousepickerI.cpp",
 			"MU"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificmonitor.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificmonitor.cpp",
 			"MU"
 		],
 		[
-			"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificworker.cpp",
+			"/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificworker.cpp",
 			"MU"
 		]
 	],
 	"UIC_OPTIONS" : [],
 	"UIC_SEARCH_PATHS" : [],
-	"UIC_SKIP" : 
-	[
-		"/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/mainUI.ui"
-	],
+	"UIC_SKIP" : [ "/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/mainUI.ui" ],
 	"UIC_UI_FILES" : [],
 	"VERBOSITY" : 0
 }

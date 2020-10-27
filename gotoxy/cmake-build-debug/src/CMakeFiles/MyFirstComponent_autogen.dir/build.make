@@ -63,10 +63,10 @@ RM = /snap/clion/129/bin/cmake/linux/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy
+CMAKE_SOURCE_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug
+CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug
 
 # Utility rule file for MyFirstComponent_autogen.
 
@@ -74,8 +74,8 @@ CMAKE_BINARY_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Gr
 include src/CMakeFiles/MyFirstComponent_autogen.dir/progress.make
 
 src/CMakeFiles/MyFirstComponent_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target MyFirstComponent"
-	cd /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src && /snap/clion/129/bin/cmake/linux/bin/cmake -E cmake_autogen /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/AutogenInfo.json Debug
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target MyFirstComponent"
+	cd /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src && /snap/clion/129/bin/cmake/linux/bin/cmake -E cmake_autogen /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/AutogenInfo.json Debug
 
 MyFirstComponent_autogen: src/CMakeFiles/MyFirstComponent_autogen
 MyFirstComponent_autogen: src/CMakeFiles/MyFirstComponent_autogen.dir/build.make
@@ -88,10 +88,10 @@ src/CMakeFiles/MyFirstComponent_autogen.dir/build: MyFirstComponent_autogen
 .PHONY : src/CMakeFiles/MyFirstComponent_autogen.dir/build
 
 src/CMakeFiles/MyFirstComponent_autogen.dir/clean:
-	cd /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src && $(CMAKE_COMMAND) -P CMakeFiles/MyFirstComponent_autogen.dir/cmake_clean.cmake
+	cd /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src && $(CMAKE_COMMAND) -P CMakeFiles/MyFirstComponent_autogen.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/MyFirstComponent_autogen.dir/clean
 
 src/CMakeFiles/MyFirstComponent_autogen.dir/depend:
-	cd /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/cmake-build-debug/src/CMakeFiles/MyFirstComponent_autogen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/MyFirstComponent_autogen.dir/depend
 
