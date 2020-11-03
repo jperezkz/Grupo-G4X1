@@ -29,6 +29,7 @@
 
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
+#include <Eigen/Dense>
 
 class SpecificWorker : public GenericWorker
 {
@@ -42,6 +43,7 @@ public:
 	void RCISMousePicker_setPick(RoboCompRCISMousePicker::Pick myPick);
 
 public slots:
+    Eigen::Vector2f calcularRotacion(Eigen::Vector2f Tw, Eigen::Vector2f Rw, float alpha, float & rot);
 	void compute();
 	int startup_check();
 	void initialize(int period);

@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/salabeta/robocomp/classes/qlog/qlog.h
+/home/noel/robocomp/classes/qlog/qlog.h
 config.h
-/home/salabeta/robocomp/classes/qlog/config.h
+/home/noel/robocomp/classes/qlog/config.h
 QtCore
 -
 iostream
@@ -20,14 +20,16 @@ boost/format.hpp
 boost/format.hpp
 -
 
-/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificworker.cpp
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificworker.cpp
 specificworker.h
-/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificworker.h
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificworker.h
 
-/home/salabeta/robocomp/components/Grupo-G4X1/gotoxy/src/specificworker.h
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy/src/specificworker.h
 genericworker.h
 -
 innermodel/innermodel.h
+-
+Eigen/Dense
 -
 
 /opt/robocomp/include/innermodel/innermodel.h

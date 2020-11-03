@@ -21,7 +21,8 @@
 /**
 * \brief Default constructor
 */
-using TPos = std::tuple<float, float>;
+#define tresshold 120
+template<typename TPos>
 
 struct Target{
     TPos content;
@@ -32,6 +33,10 @@ struct Target{
         std::lock_guard<std::mutex> guard(myMutex);
           content = data;
           active = true;
+    }
+
+    bool isActive(){
+        return active;
     }
 
     std::optional<TPos> get(){
@@ -48,7 +53,11 @@ struct Target{
         active = false;
     }
 };
-Target target;
+Target<Eigen::Vector2f> target;
+
+class vector2f;
+
+class vector2f;
 
 SpecificWorker::SpecificWorker(TuplePrx tprx, bool startup_check) : GenericWorker(tprx)
 {
@@ -98,6 +107,46 @@ void SpecificWorker::initialize(int period)
 
 }
 
+Eigen::Vector2f SpecificWorker::calcularRotacion(Eigen::Vector2f Tw, Eigen::Vector2f Rw, float alpha, float & rot){
+    Eigen::Vector2f Tr(NULL, NULL);
+   if(target.isActive()) {
+
+       float angle, alphaGrad;
+       Tr = Tw - Rw;
+
+       alphaGrad = qRadiansToDegrees(alpha);
+       //alphaGrad = qRadiansToDegrees(alpha);
+       while (alphaGrad > 360) alphaGrad -= 360;
+
+       angle = Tr.y() / (sqrt(pow(Tr.x(), 2) + pow(Tr.y(), 2)));
+       angle = qRadiansToDegrees(acos(angle));
+
+       if (Tw.x() < Rw.x()) angle = 360 - angle;
+       std::cout << "Angulo de objetivo: " << angle << std::endl;
+       std::cout << "Angulo de robot: " << alphaGrad << std::endl;
+
+       Eigen::Matrix2f M;
+       M << cos(alpha), sin(alpha),
+            0 - sin(alpha), cos(alpha);
+
+       Eigen::Vector2f Beta = M.transpose() * Tr;
+       if (alphaGrad <= angle && (angle - alphaGrad) < 180) {
+           rot = atan2(Beta.x(), Beta.y());
+           std::cout << "Angulo a girar der: " << qRadiansToDegrees(rot) << endl;
+       } else {
+           if ((angle - alphaGrad) > 180) {
+               Beta = M * Tr;
+               rot = atan2(Beta.x(), Beta.y());
+               std::cout << "Angulo a girar izq: " << qRadiansToDegrees(rot) << endl;
+           } else {
+               rot = atan2(Beta.x(), Beta.y());
+               std::cout << "Angulo a girar der: " << qRadiansToDegrees(rot) << endl;
+           }
+       }
+   }
+    return Tr;
+}
+
 void SpecificWorker::compute()
 {
 	//computeCODE
@@ -115,15 +164,34 @@ void SpecificWorker::compute()
 	}
     */
 
-	TPos pos;
-	int x, y;
-	float alpha;
+    Eigen::Vector2f Tw(NULL, NULL);
+	int RWx, RWy;
+	float alpha, dist, rot;
 
     if(auto t = target.get(); t.has_value()){
-        pos = t.value();
+        Tw = t.value();
     }
-    differentialrobot_proxy->getBasePose(x, y, alpha);
 
+    differentialrobot_proxy->getBasePose(RWx, RWy, alpha);
+    Eigen::Vector2f Rw(RWx, RWy);
+
+    Eigen::Vector2f Tr = calcularRotacion(Tw, Rw, alpha, rot);
+
+    dist = sqrt(pow(Tr.x(), 2) + pow(Tr.y(), 2));
+
+    if (dist < tresshold) {
+        differentialrobot_proxy->setSpeedBase(0, 0);
+        target.set_task_finished();
+    }
+    else if (fabs(rot) > 0.1) {
+        differentialrobot_proxy->setSpeedBase(400, rot);
+    }
+    else {
+        if(dist > 500)
+            differentialrobot_proxy->setSpeedBase(900, 0);
+        else
+            differentialrobot_proxy->setSpeedBase(400, 0);
+    }
 }
 
 int SpecificWorker::startup_check()
@@ -140,6 +208,8 @@ void SpecificWorker::RCISMousePicker_setPick(RoboCompRCISMousePicker::Pick myPic
 //subscribesToCODE
     std::cout << "Coordenada X: " << myPick.x << endl;
     std::cout << "Coordenada Z: " << myPick.z << endl;
+
+    target.put(Eigen::Vector2f(myPick.x, myPick.z));
 }
 
 
