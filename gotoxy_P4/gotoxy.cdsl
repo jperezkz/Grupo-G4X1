@@ -1,0 +1,12 @@
+import "DifferentialRobot.idsl";
+import "Laser.idsl";
+import "RCISMousePicker.idsl";
+Component MyFirstComponent{
+	Communications{
+        	requires DifferentialRobot, Laser;
+        	subscribesTo RCISMousePicker;
+        };
+language Cpp11;
+gui Qt(QWidget);
+};
+
