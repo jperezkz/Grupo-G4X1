@@ -107,46 +107,6 @@ void SpecificWorker::initialize(int period)
 
 }
 
-Eigen::Vector2f SpecificWorker::calcularRotacion(Eigen::Vector2f Tw, Eigen::Vector2f Rw, float alpha, float & rot){
-    Eigen::Vector2f Tr(NULL, NULL);
-   if(target.isActive()) {
-
-       float angle, alphaGrad;
-       Tr = Tw - Rw;
-
-       alphaGrad = qRadiansToDegrees(alpha);
-       //alphaGrad = qRadiansToDegrees(alpha);
-       while (alphaGrad > 360) alphaGrad -= 360;
-
-       angle = Tr.y() / (sqrt(pow(Tr.x(), 2) + pow(Tr.y(), 2)));
-       angle = qRadiansToDegrees(acos(angle));
-
-       if (Tw.x() < Rw.x()) angle = 360 - angle;
-       std::cout << "Angulo de objetivo: " << angle << std::endl;
-       std::cout << "Angulo de robot: " << alphaGrad << std::endl;
-
-       Eigen::Matrix2f M;
-       M << cos(alpha), sin(alpha),
-            0 - sin(alpha), cos(alpha);
-
-       Eigen::Vector2f Beta = M.transpose() * Tr;
-       if (alphaGrad <= angle && (angle - alphaGrad) < 180) {
-           rot = atan2(Beta.x(), Beta.y());
-           std::cout << "Angulo a girar der: " << qRadiansToDegrees(rot) << endl;
-       } else {
-           if ((angle - alphaGrad) > 180) {
-               Beta = M * Tr;
-               rot = atan2(Beta.x(), Beta.y());
-               std::cout << "Angulo a girar izq: " << qRadiansToDegrees(rot) << endl;
-           } else {
-               rot = atan2(Beta.x(), Beta.y());
-               std::cout << "Angulo a girar der: " << qRadiansToDegrees(rot) << endl;
-           }
-       }
-   }
-    return Tr;
-}
-
 void SpecificWorker::compute()
 {
 	//computeCODE
@@ -164,20 +124,51 @@ void SpecificWorker::compute()
 	}
     */
 
-    Eigen::Vector2f Tw(NULL, NULL);
-	int RWx, RWy;
+	QPolygonF p;
+    Eigen::Vector2f T(NULL, NULL);
+	int x, y;
 	float alpha, dist, rot;
+    RoboCompLaser::TLaserData lData;
+    float r;
+    std::vector<clave>tuplas, nuevo;
+
+    /*
+     * Hacer if comparando las posicion actual y las de target
+     * else target.set_task_finished();
+     * */
 
     if(auto t = target.get(); t.has_value()){
-        Tw = t.value();
+        T = t.value();
     }
 
-    differentialrobot_proxy->getBasePose(RWx, RWy, alpha);
-    Eigen::Vector2f Rw(RWx, RWy);
+    lData = laser_proxy->getLaserData();
+    for(auto &l: lData)
+        p<<QPointF(l.dist*cos(l.angle), l.dist*sin(l.angle));
 
-    Eigen::Vector2f Tr = calcularRotacion(Tw, Rw, alpha, rot);
+    for(int v = 0; v <= 1000; v=v+100){
+        for(float a = -1; a <=1; a=a+0.2){
+            if(fabs(a) > 0.01){
+                r = v/a;
+                x = r - r*cos(a);
+                y = r*sin(a);
+                tuplas.push_back(std::make_tuple(x,y,v,a));
+            }
+        }
+    }
 
-    dist = sqrt(pow(Tr.x(), 2) + pow(Tr.y(), 2));
+    for(auto &[x,y,v,a] : tuplas){
+        if (p.contains(QPointF(x,y)))
+            nuevo.emplace_back(std::make_tuple(x,y,v,a));
+    }
+
+    std::sort(nuevo.begin(), nuevo.end(), [T](const auto &a, const auto &b){
+        const auto &[ax,ay,av,aa] = a;
+        const auto &[bx,by,bv,ba] = b;
+        return (pow(ax-T.x(),2)+pow(ay-T.y(),2) < pow(bx-T.x(),2)+pow(by-T.y(),2));
+    });
+
+    clave sigTarget = nuevo.front();
+    differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
 
     if (dist < tresshold) {
         differentialrobot_proxy->setSpeedBase(0, 0);

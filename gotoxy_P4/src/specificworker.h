@@ -31,6 +31,8 @@
 #include <innermodel/innermodel.h>
 #include <Eigen/Dense>
 
+typedef tuple<int, int, int, float> clave;
+
 class SpecificWorker : public GenericWorker
 {
 Q_OBJECT
@@ -43,7 +45,6 @@ public:
 	void RCISMousePicker_setPick(RoboCompRCISMousePicker::Pick myPick);
 
 public slots:
-    Eigen::Vector2f calcularRotacion(Eigen::Vector2f Tw, Eigen::Vector2f Rw, float alpha, float & rot);
 	void compute();
 	int startup_check();
 	void initialize(int period);
