@@ -31,7 +31,7 @@
 #include <innermodel/innermodel.h>
 #include <Eigen/Dense>
 
-typedef tuple<int, int, int, float> clave;
+typedef tuple<float, float, int, float> clave;
 
 class SpecificWorker : public GenericWorker
 {

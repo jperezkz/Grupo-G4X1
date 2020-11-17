@@ -126,50 +126,53 @@ void SpecificWorker::compute()
 
 	QPolygonF p;
     Eigen::Vector2f T(NULL, NULL);
-	int x, y;
-	float alpha, dist, rot;
+	float x, y;
     RoboCompLaser::TLaserData lData;
     float r;
     std::vector<clave>tuplas, nuevo;
-
-    /*
-     * Hacer if comparando las posicion actual y las de target
-     * else target.set_task_finished();
-     * */
+    clave sigTarget;
 
     if(auto t = target.get(); t.has_value()){
         T = t.value();
     }
+/*
+    if (dist < tresshold) {
+        differentialrobot_proxy->setSpeedBase(0, 0);
+        target.set_task_finished();
+    }
+    else {
+*/
+        lData = laser_proxy->getLaserData();
+        for (auto &l: lData)
+            p << QPointF(l.dist * cos(l.angle), l.dist * sin(l.angle));
 
-    lData = laser_proxy->getLaserData();
-    for(auto &l: lData)
-        p<<QPointF(l.dist*cos(l.angle), l.dist*sin(l.angle));
-
-    for(int v = 0; v <= 1000; v=v+100){
-        for(float a = -1; a <=1; a=a+0.2){
-            if(fabs(a) > 0.01){
-                r = v/a;
-                x = r - r*cos(a);
-                y = r*sin(a);
-                tuplas.push_back(std::make_tuple(x,y,v,a));
+        for (int v = 0; v <= 1000; v = v + 100) {
+            for (float a = -1; a <= 1; a = a + 0.2) {
+                if (fabs(a) > 0.01) {
+                    r = v / a;
+                    x = r - r * cos(a);
+                    y = r * sin(a);
+                    tuplas.push_back(std::make_tuple(x, y, v, a));
+                }
             }
         }
-    }
 
-    for(auto &[x,y,v,a] : tuplas){
-        if (p.contains(QPointF(x,y)))
-            nuevo.emplace_back(std::make_tuple(x,y,v,a));
-    }
+        for (auto &[x, y, v, a] : tuplas) {
+            if (p.containsPoint(QPointF(x, y), Qt::OddEvenFill)) {
+                nuevo.emplace_back(std::make_tuple(x, y, v, a));
+            }
+        }
 
-    std::sort(nuevo.begin(), nuevo.end(), [T](const auto &a, const auto &b){
-        const auto &[ax,ay,av,aa] = a;
-        const auto &[bx,by,bv,ba] = b;
-        return (pow(ax-T.x(),2)+pow(ay-T.y(),2) < pow(bx-T.x(),2)+pow(by-T.y(),2));
-    });
+        std::sort(nuevo.begin(), nuevo.end(), [T](const auto &a, const auto &b) {
+            const auto &[ax, ay, av, aa] = a;
+            const auto &[bx, by, bv, ba] = b;
+            return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
+        });
 
-    clave sigTarget = nuevo.front();
-    differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
+        sigTarget = nuevo.front();
+        differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
 
+    /*
     if (dist < tresshold) {
         differentialrobot_proxy->setSpeedBase(0, 0);
         target.set_task_finished();
@@ -183,6 +186,7 @@ void SpecificWorker::compute()
         else
             differentialrobot_proxy->setSpeedBase(400, 0);
     }
+     */
 }
 
 int SpecificWorker::startup_check()
