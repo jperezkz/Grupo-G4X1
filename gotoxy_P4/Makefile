@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy_P4
+CMAKE_SOURCE_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy_P4
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy_P4
+CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy_P4
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -126,9 +126,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy_P4/CMakeFiles /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy_P4/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy_P4/CMakeFiles /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy_P4/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/gotoxy_P4/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/salabeta/robocomp/components/Grupo-G4X1/gotoxy_P4/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -170,17 +170,17 @@ MyFirstComponent/fast:
 .PHONY : MyFirstComponent/fast
 
 #=============================================================================
-# Target rules for targets named ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src
+# Target rules for targets named ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src
 
 # Build rule for target.
-ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src
-.PHONY : ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src
+ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src
+.PHONY : ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src
 
 # fast build rule for target.
-ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src/fast:
-	$(MAKE) -f src/CMakeFiles/ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src.dir/build.make src/CMakeFiles/ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src.dir/build
-.PHONY : ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src/fast
+ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src/fast:
+	$(MAKE) -f src/CMakeFiles/ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src.dir/build.make src/CMakeFiles/ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src.dir/build
+.PHONY : ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src/fast
 
 #=============================================================================
 # Target rules for targets named MyFirstComponent_autogen
@@ -208,7 +208,7 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... MyFirstComponent"
-	@echo "... ICES__home_noel_robocomp_components_robocomp-robolab_components_Grupo-G4X1_gotoxy_P4_src"
+	@echo "... ICES__home_salabeta_robocomp_components_Grupo-G4X1_gotoxy_P4_src"
 	@echo "... MyFirstComponent_autogen"
 .PHONY : help
 

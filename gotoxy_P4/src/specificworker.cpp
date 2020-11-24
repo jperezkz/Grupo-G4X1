@@ -146,13 +146,6 @@ void SpecificWorker::compute()
             target.set_task_finished();
             return;
         }
-
-    //    dist = sqrt(pow(T.x()- tBase.x,  2) + pow(T.y() - tBase.z , 2));
-
-    // std::cout << "Velocidad actual: " << tBase.advVz << " Rot actual: " << tBase.rotV << endl;
-    // std::cout << "Xpos: " << tBase.x << " Ypos: " << tBase.z << endl;
-    // std::cout << "Dist: " << dist << endl;
-
         else 
         {
             if(target.isActive()) 
@@ -160,25 +153,21 @@ void SpecificWorker::compute()
                 generarPoligono(p, ldata);
                 calculoPuntos(tBase, tuplas);
                 nuevo = obstaculos(tuplas, tBase.alpha, ldata);
-                ordenarPuntos(p, tuplas, T);
+                ordenarPuntos(p, nuevo, tr);
 
-                if (nuevo.empty()) {
-                    std::cout << "Nuevo esta vacio" << endl;
-                }
-                if (tuplas.empty())
-                    std::cout << "tuplas esta vacio" << endl;
+                if(!nuevo.empty())    sigTarget = nuevo.front();
 
-                sigTarget = tuplas.front();
                 auto &[x,y,v,w,a] = sigTarget;
                 if (w > M_PI) w = M_PI;
                 if (w < -M_PI) w = -M_PI;
                 if (v < 0) v = 0;
 
+                std::cout << "Estoy en: " << tBase.x <<","<<tBase.z<<" y el obj en: "<<x<<","<<y<<endl;
                 std::cout << "VAplicada: " << std::min(v/5, 1000.f) << " RotAplicada: " << w << endl;
 
                 differentialrobot_proxy->setSpeedBase(std::min(v/5, 1000.f) , w);
                 //differentialrobot_proxy->setSpeedBase(0 , 0.2);
-                draw_things(tBase, ldata, tuplas, sigTarget);
+                draw_things(tBase, ldata, nuevo, sigTarget);
             }
         }
     }
