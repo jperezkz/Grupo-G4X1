@@ -23,38 +23,6 @@
 */
 #define tresshold 250
 #define ROBOT_LENGTH 400
-template<typename TPos>
-
-struct Target{
-    TPos content;
-    bool active = false;
-    std::mutex myMutex;
-
-    void put(const TPos &data){
-        std::lock_guard<std::mutex> guard(myMutex);
-          content = data;
-          active = true;
-    }
-
-    bool isActive(){
-        return active;
-    }
-
-    std::optional<TPos> get(){
-        std::lock_guard<std::mutex> guard(myMutex);
-        if (active)
-            return content;
-        else
-            return {};
-    }
-
-    void set_task_finished()
-    {
-        std::lock_guard<std::mutex> guard(myMutex);
-        active = false;
-    }
-};
-Target<Eigen::Vector2f> target;
 
 class vector2f;
 
@@ -84,18 +52,58 @@ bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 //		innerModel = std::make_shared(innermodel_path);
 //	}
 //	catch(const std::exception &e) { qFatal("Error reading config params"); }
-
-
-
-
-
-
 	return true;
 }
 
 void SpecificWorker::initialize(int period)
 {
 	std::cout << "Initialize worker" << std::endl;
+
+    // graphics
+    graphicsView = new QGraphicsView(this);
+    graphicsView->resize(this->size());
+    graphicsView->setScene(&scene);
+    graphicsView->setMinimumSize(400, 400);
+    scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+    struct Dimensions
+    {
+        int TILE_SIZE = 100;
+        float HMIN = -2500, VMIN = -2500, WIDTH = 5000, HEIGHT = 5000;
+    };
+    Dimensions dim;
+    scene.setSceneRect(dim.HMIN, dim.VMIN, dim.WIDTH, dim.HEIGHT);
+    graphicsView->scale(1, -1);
+
+    graphicsView->show();
+
+    //robot
+    QPolygonF poly2;
+    float size = ROBOT_LENGTH / 2.f;
+    poly2 << QPoint(-size, -size)
+          << QPoint(-size, size)
+          << QPoint(-size / 3, size * 1.6)
+          << QPoint(size / 3, size * 1.6)
+          << QPoint(size, size)
+          << QPoint(size, -size);
+    QBrush brush;
+    brush.setColor(QColor("DarkRed"));
+    brush.setStyle(Qt::SolidPattern);
+    robot_polygon = (QGraphicsItem *)scene.addPolygon(poly2, QPen(QColor("DarkRed")), brush);
+    robot_polygon->setZValue(5);
+
+    try
+    {
+        RoboCompGenericBase::TBaseState bState;
+        differentialrobot_proxy->getBaseState(bState);
+        robot_polygon->setRotation(qRadiansToDegrees(-bState.alpha));
+        robot_polygon->setPos(bState.x, bState.z);
+    }
+    catch (const Ice::Exception &e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+    graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
+
 	this->Period = period;
 	if(this->startup_check_flag)
 	{
@@ -111,113 +119,113 @@ void SpecificWorker::initialize(int period)
 
 void SpecificWorker::compute()
 {
-	//computeCODE
-	/*
-	QMutexLocker locker(mutex);
-	try
-	{
-	  camera_proxy->getYImage(0,img, cState, bState);
-	  memcpy(image_gray.data, &img[0], m_width*m_height*sizeof(uchar));
-	  searchTags(image_gray);
-	}
-	catch(const Ice::Exception &e)
-	{
-	  std::cout << "Error reading from Camera" << e << std::endl;
-	}
-    */
+	
+    RoboCompGenericBase::TBaseState tBase;
+    differentialrobot_proxy->getBaseState(tBase);   
+    RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
 
 	QPolygonF p;
     Eigen::Vector2f T(NULL, NULL);
 	float dist;
-	RoboCompGenericBase::TBaseState tBase;
-    std::vector<clave>tuplas, nuevo;
-    clave sigTarget;
+	
 
-    if(auto t = target.get(); t.has_value()){
+    std::vector<tupla> tuplas, nuevo;
+    tupla sigTarget;
+
+    if(auto t = target.get(); t.has_value())
+    {
+        qInfo() << "hola";
         T = t.value();
-    }
-    differentialrobot_proxy->getBaseState(tBase);
-    dist = sqrt(pow(T.x()- tBase.x,  2) + pow(T.y() - tBase.z , 2));
-
-    std::cout << "Velocidad actual: " << tBase.advVz << " Rot actual: " << tBase.rotV << endl;
-    std::cout << "Xpos: " << tBase.x << " Ypos: " << tBase.z << endl;
-    std::cout << "Dist: " << dist << endl;
-
-    if (dist < tresshold) {
-        differentialrobot_proxy->setSpeedBase(0, 0);
-        target.set_task_finished();
-    }
-    else {
-        if(target.isActive()) {
-            generarPoligono(p);
-            calculoPuntos(tBase.advVz, tBase.rotV, tuplas);
-            ordenarPuntos(p, tuplas, nuevo, T);
-/*
-        // graphics
-        QGraphicsView *graphicsView;
-        QGraphicsItem *robot_polygon;
-        QGraphicsScene scene;
-        scene.addText("Window");
-
-        graphicsView = new QGraphicsView(this);
-        graphicsView->resize(this->size());
-        graphicsView->setScene(&scene);
-        graphicsView->setMinimumSize(400,400);
-        scene.setItemIndexMethod(QGraphicsScene::NoIndex);
-        struct Dimensions
+        auto tw = t.value();
+        // pasarlo al SR del robot
+        Eigen::Vector2f rw(tBase.x, tBase.z);
+        Eigen::Matrix2f rot;
+        rot << cos(tBase.alpha), sin(tBase.alpha), -sin(tBase.alpha), cos(tBase.alpha);
+        auto tr = rot.transpose() * (tw - rw); // TARGET EN EL ROBOT
+        auto dist = tr.norm(); 
+        
+        if (dist < 50)
         {
-            int TILE_SIZE = 100;
-            float HMIN = -2500, VMIN = -2500, WIDTH = 5000, HEIGHT = 5000;
-        };
-        Dimensions dim;
-        scene.setSceneRect(dim.HMIN, dim.VMIN, dim.WIDTH, dim.HEIGHT);
-        graphicsView->scale(1, -1);
-
-        graphicsView->show();
-
-//robot
-        QPolygonF poly2;
-        float size = ROBOT_LENGTH / 2.f;
-        poly2 << QPoint(-size, -size)
-              << QPoint(-size, size)
-              << QPoint(-size / 3, size * 1.6)
-              << QPoint(size / 3, size * 1.6)
-              << QPoint(size, size)
-              << QPoint(size, -size);
-        QBrush brush;
-        brush.setColor(QColor("DarkRed"));
-        brush.setStyle(Qt::SolidPattern);
-        robot_polygon = (QGraphicsItem*) scene.addPolygon(poly2, QPen(QColor("DarkRed")), brush);
-        robot_polygon->setZValue(5);
-        RoboCompGenericBase::TBaseState bState;
-        try
-        {
-            differentialrobot_proxy->getBaseState(bState);
-            robot_polygon->setRotation(qRadiansToDegrees(-bState.alpha));
-            robot_polygon->setPos(bState.x,bState.z);
+            differentialrobot_proxy->setSpeedBase(0, 0);
+            target.active = false;
+            target.set_task_finished();
+            return;
         }
-        catch (const Ice::Exception &e) { std::cout << e.what() << std::endl; }
 
-// box
-        auto caja = innerModel->getTransform("caja1");
-        scene.addRect(caja->backtX-200, caja->backtZ-200, 400, 400, QPen(QColor("Magenta")), QBrush(QColor("Magenta")));
-        graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio );
+    //    dist = sqrt(pow(T.x()- tBase.x,  2) + pow(T.y() - tBase.z , 2));
 
-*/
-            if (nuevo.empty()) {
-                std::cout << "Nuevo esta vacio" << endl;
+    // std::cout << "Velocidad actual: " << tBase.advVz << " Rot actual: " << tBase.rotV << endl;
+    // std::cout << "Xpos: " << tBase.x << " Ypos: " << tBase.z << endl;
+    // std::cout << "Dist: " << dist << endl;
+
+        else 
+        {
+            if(target.isActive()) 
+            {
+                generarPoligono(p);
+                calculoPuntos(tBase.advVz, tBase.rotV, tuplas);
+                ordenarPuntos(p, tuplas, nuevo, T);
+
+                if (nuevo.empty()) {
+                    std::cout << "Nuevo esta vacio" << endl;
+                }
+                if (tuplas.empty())
+                    std::cout << "tuplas esta vacio" << endl;
+
+                sigTarget = tuplas.front();
+                auto &[x,y,v,w,a] = sigTarget;
+                if (w > M_PI) w = M_PI;
+                if (w < -M_PI) w = -M_PI;
+                if (v < 0) v = 0;
+
+                std::cout << "VAplicada: " << std::min(v/5, 1000.f) << " RotAplicada: " << w << endl;
+
+                //differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
+                draw_things(tBase, ldata, tuplas, sigTarget);
+                //delete graphicsView;
             }
-            if (tuplas.empty())
-                std::cout << "tuplas esta vacio" << endl;
-
-            sigTarget = tuplas.front();
-            std::cout << "VAplicada: " << get<2>(sigTarget) << " RotAplicada: " << get<3>(sigTarget) << endl;
-            differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
-
-            //delete graphicsView;
         }
     }
+}   
+
+
+void SpecificWorker::draw_things(const RoboCompGenericBase::TBaseState &bState, const RoboCompLaser::TLaserData &ldata,
+                                 const std::vector<tupla> &puntos, const tupla &front)
+{
+    //draw robot
+    //innerModel->updateTransformValues("base", bState.x, 0, bState.z, 0, bState.alpha, 0);
+    robot_polygon->setRotation(qRadiansToDegrees(-bState.alpha));
+    robot_polygon->setPos(bState.x, bState.z);
+    graphicsView->resize(this->size());
+
+    //draw laser
+    if (laser_polygon != nullptr)
+        scene.removeItem(laser_polygon);
+    QPolygonF poly;
+    for (auto &l : ldata)
+        poly << robot_polygon->mapToScene(QPointF(l.dist * sin(l.angle), l.dist * cos(l.angle)));
+    QColor color("LightGreen");
+    color.setAlpha(40);
+    laser_polygon = scene.addPolygon(poly, QPen(color), QBrush(color));
+    laser_polygon->setZValue(13);
+
+    // draw future. Draw and arch going out from the robot
+    // remove existing arcs
+    for (auto arc : arcs_vector)
+        scene.removeItem(arc);
+    arcs_vector.clear();
+    QColor col("Red");
+    for (auto &[x, y, vx, wx, a] : puntos)
+    {
+        QPointF centro = robot_polygon->mapToScene(x, y);
+        arcs_vector.push_back(scene.addEllipse(centro.x(), centro.y(), 20, 20, QPen(col), QBrush(col)));
+    }
+
+    QPointF center = robot_polygon->mapToScene(std::get<0>(front), std::get<1>(front));
+    arcs_vector.push_back(scene.addEllipse(center.x(), center.y(), 40, 40, QPen(Qt::black), QBrush(Qt::black)));
 }
+
+
 
 void SpecificWorker::generarPoligono(QPolygonF &p){
     RoboCompLaser::TLaserData lData = laser_proxy->getLaserData();
@@ -226,7 +234,7 @@ void SpecificWorker::generarPoligono(QPolygonF &p){
         p << QPointF(l.dist * cos(l.angle), l.dist * sin(l.angle));
 }
 
-void SpecificWorker::calculoPuntos(float vOrigen, float aOrigen,std::vector<clave> &tuplas) {
+void SpecificWorker::calculoPuntos(float vOrigen, float aOrigen,std::vector<tupla> &tuplas) {
     float vActual, aActual;
     float r, x, y, alpha;
 
@@ -250,7 +258,7 @@ void SpecificWorker::calculoPuntos(float vOrigen, float aOrigen,std::vector<clav
     }
 }
 
-void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<clave> &tuplas, std::vector<clave> &nuevo, Eigen::Vector2f T){
+void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<tupla> &tuplas, std::vector<tupla> &nuevo, Eigen::Vector2f T){
 
     for (auto &[x, y, v, a, al] : tuplas) {
         if (p.containsPoint(QPointF(x, y), Qt::OddEvenFill)) {
@@ -265,6 +273,52 @@ void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<clave> &tuplas, std:
         return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
     });
 }
+
+
+std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla> vector, float aph, const RoboCompLaser::TLaserData &ldata)
+{
+    QPolygonF polygonF;
+    const float semiancho = 350; // el semiancho del robot
+    std::vector<tupla> vectorOBs;
+    for (auto &l : ldata)
+        polygonF << QPointF(l.dist * sin(l.angle), l.dist * cos(l.angle));
+
+    for (auto &[x, y, a, g, ang] : vector)
+    {
+        // GENERAR UN CUADRADO CON EL CENTRO EN X, Y Y ORIENTACION ANG.
+        QPolygonF polyRobot;
+
+        polyRobot << QPointF(x - semiancho, y + semiancho)
+                  << QPointF(x + semiancho, y + semiancho)
+                  << QPointF(x + semiancho, y - semiancho)
+                  << QPointF(x - semiancho, y - semiancho);
+
+        polyRobot = QTransform().rotate(aph).map(polyRobot);
+        //   qDebug () <<  "Despues de girar " <<  polyRobot;
+
+        bool cuatroEsquinas = true;
+        for (auto &p : polyRobot)
+        {
+            // si NO contiene alguna de las 4 esquinas, no tenemos en cuenta esa x, y .
+            //En el momento en el que un punto no coincide, pasamos a otro.
+            if (!polygonF.containsPoint(p, Qt::OddEvenFill))
+            {
+                cuatroEsquinas = false;
+                break;
+            }
+        }
+        // SI contiene las 4 esquinas , metemos el valor.
+        if (cuatroEsquinas)
+        {
+            // qDebug() << "CuatroEsquinas es true";
+            //    std::cout << FUNCTION << " " << x << " " << y << " " << a << " " << g << " " << ang << std::endl;
+            vectorOBs.emplace_back(std::make_tuple(x, y, a, g, ang));
+        }
+    }
+    return vectorOBs;
+}
+
+
 
 int SpecificWorker::startup_check()
 {

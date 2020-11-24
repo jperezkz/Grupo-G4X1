@@ -40,7 +40,7 @@ QT_MOC_LITERAL(5, 51, 1), // "p"
 QT_MOC_LITERAL(6, 53, 13), // "calculoPuntos"
 QT_MOC_LITERAL(7, 67, 7), // "vOrigen"
 QT_MOC_LITERAL(8, 75, 7), // "rOrigen"
-QT_MOC_LITERAL(9, 83, 19), // "std::vector<clave>&"
+QT_MOC_LITERAL(9, 83, 19), // "std::vector<tupla>&"
 QT_MOC_LITERAL(10, 103, 6), // "tuplas"
 QT_MOC_LITERAL(11, 110, 13), // "ordenarPuntos"
 QT_MOC_LITERAL(12, 124, 5), // "nuevo"
@@ -53,7 +53,7 @@ QT_MOC_LITERAL(17, 173, 6) // "period"
     },
     "SpecificWorker\0compute\0\0generarPoligono\0"
     "QPolygonF&\0p\0calculoPuntos\0vOrigen\0"
-    "rOrigen\0std::vector<clave>&\0tuplas\0"
+    "rOrigen\0std::vector<tupla>&\0tuplas\0"
     "ordenarPuntos\0nuevo\0Eigen::Vector2f\0"
     "T\0startup_check\0initialize\0period"
 };
@@ -99,8 +99,8 @@ void SpecificWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         switch (_id) {
         case 0: _t->compute(); break;
         case 1: _t->generarPoligono((*reinterpret_cast< QPolygonF(*)>(_a[1]))); break;
-        case 2: _t->calculoPuntos((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< std::vector<clave>(*)>(_a[3]))); break;
-        case 3: _t->ordenarPuntos((*reinterpret_cast< QPolygonF(*)>(_a[1])),(*reinterpret_cast< std::vector<clave>(*)>(_a[2])),(*reinterpret_cast< std::vector<clave>(*)>(_a[3])),(*reinterpret_cast< Eigen::Vector2f(*)>(_a[4]))); break;
+        case 2: _t->calculoPuntos((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< std::vector<tupla>(*)>(_a[3]))); break;
+        case 3: _t->ordenarPuntos((*reinterpret_cast< QPolygonF(*)>(_a[1])),(*reinterpret_cast< std::vector<tupla>(*)>(_a[2])),(*reinterpret_cast< std::vector<tupla>(*)>(_a[3])),(*reinterpret_cast< Eigen::Vector2f(*)>(_a[4]))); break;
         case 4: { int _r = _t->startup_check();
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = std::move(_r); }  break;
         case 5: _t->initialize((*reinterpret_cast< int(*)>(_a[1]))); break;
