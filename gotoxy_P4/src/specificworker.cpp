@@ -22,7 +22,6 @@
 * \brief Default constructor
 */
 #define tresshold 250
-#define ROBOT_LENGTH 400
 
 class vector2f;
 
@@ -116,7 +115,6 @@ void SpecificWorker::initialize(int period)
 
 }
 
-
 void SpecificWorker::compute()
 {
 	
@@ -126,8 +124,6 @@ void SpecificWorker::compute()
 
 	QPolygonF p;
     Eigen::Vector2f T(NULL, NULL);
-	float dist;
-	
 
     std::vector<tupla> tuplas, nuevo;
     tupla sigTarget;
@@ -136,18 +132,17 @@ void SpecificWorker::compute()
     {
         qInfo() << "hola";
         T = t.value();
-        auto tw = t.value();
+
         // pasarlo al SR del robot
         Eigen::Vector2f rw(tBase.x, tBase.z);
         Eigen::Matrix2f rot;
         rot << cos(tBase.alpha), sin(tBase.alpha), -sin(tBase.alpha), cos(tBase.alpha);
-        auto tr = rot.transpose() * (tw - rw); // TARGET EN EL ROBOT
+        auto tr = rot.transpose() * (T - rw); // TARGET EN EL ROBOT
         auto dist = tr.norm(); 
         
-        if (dist < 50)
+        if (dist < tresshold)
         {
             differentialrobot_proxy->setSpeedBase(0, 0);
-            target.active = false;
             target.set_task_finished();
             return;
         }
@@ -162,9 +157,10 @@ void SpecificWorker::compute()
         {
             if(target.isActive()) 
             {
-                generarPoligono(p);
-                calculoPuntos(tBase.advVz, tBase.rotV, tuplas);
-                ordenarPuntos(p, tuplas, nuevo, T);
+                generarPoligono(p, ldata);
+                calculoPuntos(tBase, tuplas);
+                nuevo = obstaculos(tuplas, tBase.alpha, ldata);
+                ordenarPuntos(p, tuplas, T);
 
                 if (nuevo.empty()) {
                     std::cout << "Nuevo esta vacio" << endl;
@@ -180,9 +176,9 @@ void SpecificWorker::compute()
 
                 std::cout << "VAplicada: " << std::min(v/5, 1000.f) << " RotAplicada: " << w << endl;
 
-                //differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
+                differentialrobot_proxy->setSpeedBase(std::min(v/5, 1000.f) , w);
+                //differentialrobot_proxy->setSpeedBase(0 , 0.2);
                 draw_things(tBase, ldata, tuplas, sigTarget);
-                //delete graphicsView;
             }
         }
     }
@@ -227,22 +223,20 @@ void SpecificWorker::draw_things(const RoboCompGenericBase::TBaseState &bState, 
 
 
 
-void SpecificWorker::generarPoligono(QPolygonF &p){
-    RoboCompLaser::TLaserData lData = laser_proxy->getLaserData();
-
-    for (auto &l: lData)
+void SpecificWorker::generarPoligono(QPolygonF &p, const RoboCompLaser::TLaserData ldata){
+    for (auto &l: ldata)
         p << QPointF(l.dist * cos(l.angle), l.dist * sin(l.angle));
 }
 
-void SpecificWorker::calculoPuntos(float vOrigen, float aOrigen,std::vector<tupla> &tuplas) {
+void SpecificWorker::calculoPuntos(RoboCompGenericBase::TBaseState tBase,std::vector<tupla> &tuplas) {
     float vActual, aActual;
     float r, x, y, alpha;
 
     for(float dt = 0.3; dt<1.5; dt += 0.1) {
         for (int v = 0; v <= 1000; v = v + 100) {
             for (float a = -3; a <= 3; a += 0.1) {
-                vActual = vOrigen + v;
-                aActual = aOrigen + a;
+                vActual = tBase.advVz + v;
+                aActual = tBase.rotV + a;
                 if (fabs(aActual) > 0.01) {
                         r = vActual / aActual;
                         x = r - r * cos(aActual * dt);
@@ -258,16 +252,8 @@ void SpecificWorker::calculoPuntos(float vOrigen, float aOrigen,std::vector<tupl
     }
 }
 
-void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<tupla> &tuplas, std::vector<tupla> &nuevo, Eigen::Vector2f T){
-
-    for (auto &[x, y, v, a, al] : tuplas) {
-        if (p.containsPoint(QPointF(x, y), Qt::OddEvenFill)) {
-            nuevo.emplace_back(std::make_tuple(x, y, v, a, al));
-            //std::cout << "Se llena nuevo" << endl;
-        }
-    }
-    //std::cout <<"Primer punto nuevo --> X: " << get<2>(nuevo.front()) << " Y: " << get<2>(nuevo.front()) << endl;
-    std::sort(tuplas.begin(), tuplas.end(), [T](const auto &a, const auto &b) {
+void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<tupla> &vector, Eigen::Vector2f T){
+    std::sort(vector.begin(), vector.end(), [T](const auto &a, const auto &b) {
         const auto &[ax, ay, av, aa, ap] = a;
         const auto &[bx, by, bv, ba, bp] = b;
         return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
