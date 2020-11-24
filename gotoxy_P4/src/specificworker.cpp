@@ -21,7 +21,8 @@
 /**
 * \brief Default constructor
 */
-#define tresshold 120
+#define tresshold 250
+#define ROBOT_LENGTH 400
 template<typename TPos>
 
 struct Target{
@@ -107,6 +108,7 @@ void SpecificWorker::initialize(int period)
 
 }
 
+
 void SpecificWorker::compute()
 {
 	//computeCODE
@@ -126,67 +128,142 @@ void SpecificWorker::compute()
 
 	QPolygonF p;
     Eigen::Vector2f T(NULL, NULL);
-	float x, y;
-    RoboCompLaser::TLaserData lData;
-    float r;
+	float dist;
+	RoboCompGenericBase::TBaseState tBase;
     std::vector<clave>tuplas, nuevo;
     clave sigTarget;
 
     if(auto t = target.get(); t.has_value()){
         T = t.value();
     }
-/*
+    differentialrobot_proxy->getBaseState(tBase);
+    dist = sqrt(pow(T.x()- tBase.x,  2) + pow(T.y() - tBase.z , 2));
+
+    std::cout << "Velocidad actual: " << tBase.advVz << " Rot actual: " << tBase.rotV << endl;
+    std::cout << "Xpos: " << tBase.x << " Ypos: " << tBase.z << endl;
+    std::cout << "Dist: " << dist << endl;
+
     if (dist < tresshold) {
         differentialrobot_proxy->setSpeedBase(0, 0);
         target.set_task_finished();
     }
     else {
-*/
-        lData = laser_proxy->getLaserData();
-        for (auto &l: lData)
-            p << QPointF(l.dist * cos(l.angle), l.dist * sin(l.angle));
+        if(target.isActive()) {
+            generarPoligono(p);
+            calculoPuntos(tBase.advVz, tBase.rotV, tuplas);
+            ordenarPuntos(p, tuplas, nuevo, T);
+/*
+        // graphics
+        QGraphicsView *graphicsView;
+        QGraphicsItem *robot_polygon;
+        QGraphicsScene scene;
+        scene.addText("Window");
 
+        graphicsView = new QGraphicsView(this);
+        graphicsView->resize(this->size());
+        graphicsView->setScene(&scene);
+        graphicsView->setMinimumSize(400,400);
+        scene.setItemIndexMethod(QGraphicsScene::NoIndex);
+        struct Dimensions
+        {
+            int TILE_SIZE = 100;
+            float HMIN = -2500, VMIN = -2500, WIDTH = 5000, HEIGHT = 5000;
+        };
+        Dimensions dim;
+        scene.setSceneRect(dim.HMIN, dim.VMIN, dim.WIDTH, dim.HEIGHT);
+        graphicsView->scale(1, -1);
+
+        graphicsView->show();
+
+//robot
+        QPolygonF poly2;
+        float size = ROBOT_LENGTH / 2.f;
+        poly2 << QPoint(-size, -size)
+              << QPoint(-size, size)
+              << QPoint(-size / 3, size * 1.6)
+              << QPoint(size / 3, size * 1.6)
+              << QPoint(size, size)
+              << QPoint(size, -size);
+        QBrush brush;
+        brush.setColor(QColor("DarkRed"));
+        brush.setStyle(Qt::SolidPattern);
+        robot_polygon = (QGraphicsItem*) scene.addPolygon(poly2, QPen(QColor("DarkRed")), brush);
+        robot_polygon->setZValue(5);
+        RoboCompGenericBase::TBaseState bState;
+        try
+        {
+            differentialrobot_proxy->getBaseState(bState);
+            robot_polygon->setRotation(qRadiansToDegrees(-bState.alpha));
+            robot_polygon->setPos(bState.x,bState.z);
+        }
+        catch (const Ice::Exception &e) { std::cout << e.what() << std::endl; }
+
+// box
+        auto caja = innerModel->getTransform("caja1");
+        scene.addRect(caja->backtX-200, caja->backtZ-200, 400, 400, QPen(QColor("Magenta")), QBrush(QColor("Magenta")));
+        graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio );
+
+*/
+            if (nuevo.empty()) {
+                std::cout << "Nuevo esta vacio" << endl;
+            }
+            if (tuplas.empty())
+                std::cout << "tuplas esta vacio" << endl;
+
+            sigTarget = tuplas.front();
+            std::cout << "VAplicada: " << get<2>(sigTarget) << " RotAplicada: " << get<3>(sigTarget) << endl;
+            differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
+
+            //delete graphicsView;
+        }
+    }
+}
+
+void SpecificWorker::generarPoligono(QPolygonF &p){
+    RoboCompLaser::TLaserData lData = laser_proxy->getLaserData();
+
+    for (auto &l: lData)
+        p << QPointF(l.dist * cos(l.angle), l.dist * sin(l.angle));
+}
+
+void SpecificWorker::calculoPuntos(float vOrigen, float aOrigen,std::vector<clave> &tuplas) {
+    float vActual, aActual;
+    float r, x, y, alpha;
+
+    for(float dt = 0.3; dt<1.5; dt += 0.1) {
         for (int v = 0; v <= 1000; v = v + 100) {
-            for (float a = -1; a <= 1; a = a + 0.2) {
-                if (fabs(a) > 0.01) {
-                    r = v / a;
-                    x = r - r * cos(a);
-                    y = r * sin(a);
-                    tuplas.push_back(std::make_tuple(x, y, v, a));
+            for (float a = -3; a <= 3; a += 0.1) {
+                vActual = vOrigen + v;
+                aActual = aOrigen + a;
+                if (fabs(aActual) > 0.01) {
+                        r = vActual / aActual;
+                        x = r - r * cos(aActual * dt);
+                        y = r * sin(aActual * dt);
+                        alpha = aActual * dt;
+                        tuplas.push_back(std::make_tuple(x, y, vActual, aActual, alpha));
+                }
+                else{
+                    tuplas.push_back(std::make_tuple(0, v * dt, vActual, aActual, aActual * dt));
                 }
             }
         }
+    }
+}
 
-        for (auto &[x, y, v, a] : tuplas) {
-            if (p.containsPoint(QPointF(x, y), Qt::OddEvenFill)) {
-                nuevo.emplace_back(std::make_tuple(x, y, v, a));
-            }
+void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<clave> &tuplas, std::vector<clave> &nuevo, Eigen::Vector2f T){
+
+    for (auto &[x, y, v, a, al] : tuplas) {
+        if (p.containsPoint(QPointF(x, y), Qt::OddEvenFill)) {
+            nuevo.emplace_back(std::make_tuple(x, y, v, a, al));
+            //std::cout << "Se llena nuevo" << endl;
         }
-
-        std::sort(nuevo.begin(), nuevo.end(), [T](const auto &a, const auto &b) {
-            const auto &[ax, ay, av, aa] = a;
-            const auto &[bx, by, bv, ba] = b;
-            return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
-        });
-
-        sigTarget = nuevo.front();
-        differentialrobot_proxy->setSpeedBase(std::get<2>(sigTarget), std::get<3>(sigTarget));
-
-    /*
-    if (dist < tresshold) {
-        differentialrobot_proxy->setSpeedBase(0, 0);
-        target.set_task_finished();
     }
-    else if (fabs(rot) > 0.1) {
-        differentialrobot_proxy->setSpeedBase(400, rot);
-    }
-    else {
-        if(dist > 500)
-            differentialrobot_proxy->setSpeedBase(900, 0);
-        else
-            differentialrobot_proxy->setSpeedBase(400, 0);
-    }
-     */
+    //std::cout <<"Primer punto nuevo --> X: " << get<2>(nuevo.front()) << " Y: " << get<2>(nuevo.front()) << endl;
+    std::sort(tuplas.begin(), tuplas.end(), [T](const auto &a, const auto &b) {
+        const auto &[ax, ay, av, aa, ap] = a;
+        const auto &[bx, by, bv, ba, bp] = b;
+        return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
+    });
 }
 
 int SpecificWorker::startup_check()

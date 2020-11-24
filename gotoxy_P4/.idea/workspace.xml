@@ -10,6 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fca2364-bb36-49b9-ad04-8f9f77745bfa" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/specificworker.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificworker.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/specificworker.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificworker.h" afterDir="false" />
     </list>
@@ -55,7 +56,17 @@
       <workItem from="1604419031398" duration="850000" />
       <workItem from="1604501215601" duration="55000" />
       <workItem from="1605019167035" duration="5936000" />
-      <workItem from="1605613916324" duration="4714000" />
+      <workItem from="1605613916324" duration="5337000" />
+      <workItem from="1605688091095" duration="2822000" />
+      <workItem from="1605699166333" duration="4205000" />
+      <workItem from="1605710905084" duration="1741000" />
+      <workItem from="1605714465956" duration="2375000" />
+      <workItem from="1605724726094" duration="3547000" />
+      <workItem from="1605775933881" duration="341000" />
+      <workItem from="1605868570189" duration="2922000" />
+      <workItem from="1606119483313" duration="5049000" />
+      <workItem from="1606206009601" duration="3811000" />
+      <workItem from="1606213447254" duration="155000" />
     </task>
     <servers />
   </component>

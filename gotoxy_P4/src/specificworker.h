@@ -30,8 +30,10 @@
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
 #include <Eigen/Dense>
+#include <QGraphicsView>
+#include <QGraphicsItem>
 
-typedef tuple<float, float, int, float> clave;
+typedef tuple<float, float, int, float, float> clave;
 
 class SpecificWorker : public GenericWorker
 {
@@ -46,6 +48,9 @@ public:
 
 public slots:
 	void compute();
+    void generarPoligono(QPolygonF &p);
+    void calculoPuntos(float vOrigen, float rOrigen, std::vector<clave>&tuplas);
+    void ordenarPuntos(QPolygonF p, std::vector<clave> &tuplas, std::vector<clave> &nuevo, Eigen::Vector2f T);
 	int startup_check();
 	void initialize(int period);
 private:
