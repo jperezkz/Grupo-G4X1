@@ -21,11 +21,6 @@
 /**
 * \brief Default constructor
 */
-#define tresshold 250
-
-class vector2f;
-
-class vector2f;
 
 SpecificWorker::SpecificWorker(TuplePrx tprx, bool startup_check) : GenericWorker(tprx)
 {
@@ -166,7 +161,6 @@ void SpecificWorker::compute()
                 std::cout << "VAplicada: " << std::min(v/5, 1000.f) << " RotAplicada: " << w << endl;
 
                 differentialrobot_proxy->setSpeedBase(std::min(v/5, 1000.f) , w);
-                //differentialrobot_proxy->setSpeedBase(0 , 0.2);
                 draw_things(tBase, ldata, nuevo, sigTarget);
             }
         }
@@ -293,6 +287,32 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
     return vectorOBs;
 }
 
+
+void SpecificWorker::fill_grid_with_obstacles ()
+{
+    for(int i=1; i<max_boxes; i++)
+    {
+        auto caja = "caja" + QString::number(i);
+        auto node = innerModel->getNode(caja);
+        auto mesh = innerModel->getNode("cajaMesh" + QString::number(i));
+        if(node and mesh)
+        {
+            auto pose = innerModel->transform("world", caja);
+            auto plane = dynamic_cast<InnerModelPlane*>(mesh);
+            int x = pose.x();
+            int z = pose.z();
+            int width = plane->depth;
+            int depth = plane->width;
+
+            /****
+
+            AQUI EL CODIGO DE MODIFICACIÓN DEL GRID
+
+            *****/
+
+        }
+    }
+}
 
 
 int SpecificWorker::startup_check()

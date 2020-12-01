@@ -32,8 +32,7 @@
 #include <Eigen/Dense>
 #include <QGraphicsView>
 #include <QGraphicsItem>
-
-
+#include "Grid.h"
 
 class SpecificWorker : public GenericWorker
 {
@@ -58,6 +57,12 @@ private:
  	
 	std::shared_ptr < InnerModel > innerModel;
 	bool startup_check_flag;
+
+	const int tresshold = 250;
+	const int max_boxes = 10; //max number of boxes
+
+	// Fill grid
+    void fill_grid_with_obstacles ();
 
 	 //draw
     QGraphicsScene scene;
@@ -100,8 +105,6 @@ private:
 		}
 	};
 	Target<Eigen::Vector2f> target;
-
-
 };
 
 #endif
