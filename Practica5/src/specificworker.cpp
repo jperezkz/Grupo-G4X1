@@ -39,13 +39,13 @@ bool SpecificWorker::setParams(RoboCompCommonBehavior::ParameterList params)
 {
 //	THE FOLLOWING IS JUST AN EXAMPLE
 //	To use innerModelPath parameter you should uncomment specificmonitor.cpp readConfig method content
-//	try
-//	{
-//		RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
-//		std::string innermodel_path = par.value;
-//		innerModel = std::make_shared(innermodel_path);
-//	}
-//	catch(const std::exception &e) { qFatal("Error reading config params"); }
+	try
+	{
+		RoboCompCommonBehavior::Parameter par = params.at("InnerModelPath");
+		std::string innermodel_path = par.value;
+		innerModel = std::make_shared<InnerModel>(innermodel_path);
+	}
+	catch(const std::exception &e) { qFatal("Error reading config params"); }
 	return true;
 }
 
@@ -96,9 +96,12 @@ void SpecificWorker::initialize(int period)
     {
         std::cout << e.what() << std::endl;
     }
+
     graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
 
-	this->Period = period;
+    fill_grid_with_obstacles(grid);
+
+    this->Period = period;
 	if(this->startup_check_flag)
 	{
 		this->startup_check();
@@ -252,8 +255,8 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
     for (auto &l : ldata)
         polygonF << QPointF(l.dist * sin(l.angle), l.dist * cos(l.angle));
 
-    for (auto &[x, y, a, g, ang] : vector)
-    {
+    for (auto &[x, y, a, g, ang] : vector) {
+
         // GENERAR UN CUADRADO CON EL CENTRO EN X, Y Y ORIENTACION ANG.
         QPolygonF polyRobot;
 
@@ -266,19 +269,16 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
         //   qDebug () <<  "Despues de girar " <<  polyRobot;
 
         bool cuatroEsquinas = true;
-        for (auto &p : polyRobot)
-        {
+        for (auto &p : polyRobot) {
             // si NO contiene alguna de las 4 esquinas, no tenemos en cuenta esa x, y .
             //En el momento en el que un punto no coincide, pasamos a otro.
-            if (!polygonF.containsPoint(p, Qt::OddEvenFill))
-            {
+            if (!polygonF.containsPoint(p, Qt::OddEvenFill)) {
                 cuatroEsquinas = false;
                 break;
             }
         }
         // SI contiene las 4 esquinas , metemos el valor.
-        if (cuatroEsquinas)
-        {
+        if (cuatroEsquinas) {
             // qDebug() << "CuatroEsquinas es true";
             //    std::cout << FUNCTION << " " << x << " " << y << " " << a << " " << g << " " << ang << std::endl;
             vectorOBs.emplace_back(std::make_tuple(x, y, a, g, ang));
@@ -288,30 +288,46 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
 }
 
 
-void SpecificWorker::fill_grid_with_obstacles ()
+void SpecificWorker::fill_grid_with_obstacles (Grid &grid)
 {
-    for(int i=1; i<max_boxes; i++)
-    {
-        auto caja = "caja" + QString::number(i);
-        auto node = innerModel->getNode(caja);
-        auto mesh = innerModel->getNode("cajaMesh" + QString::number(i));
-        if(node and mesh)
+        for(int i=1; i<max_boxes; i++)
         {
-            auto pose = innerModel->transform("world", caja);
-            auto plane = dynamic_cast<InnerModelPlane*>(mesh);
-            int x = pose.x();
-            int z = pose.z();
-            int width = plane->depth;
-            int depth = plane->width;
+            auto caja = "caja" + QString::number(i);
+            auto node = innerModel->getNode(caja);
+            auto mesh = innerModel->getNode("cajaMesh" + QString::number(i));
+            if(node and mesh)
+            {
+                auto pose = innerModel->transform("world", caja);
+                auto plane = dynamic_cast<InnerModelPlane*>(mesh);
+                int x = pose.x();
+                int z = pose.z();
+                int width = plane->depth;
+                int depth = plane->width;
 
-            /****
+                grid.set_occupied(x,z);
 
-            AQUI EL CODIGO DE MODIFICACIÓN DEL GRID
+                for(int i = x-width/2; i <= (x+width/2); i++)
+                {
+                    for(int j = z-depth/2; j <= (z+depth/2); j++)
+                    {
+                        grid.set_occupied(i, j);
+                    }
+                }
 
-            *****/
+                QPolygonF poly;
+                poly << QPoint(x-width/2, z-depth/2)
+                     << QPoint(x+width/2, z-depth/2)
+                     << QPoint(x+width/2, z+depth/2)
+                     << QPoint(x-width/2, z+depth/2);
+                QColor color("Blue");
+                color.setAlpha(40);
+                obstacles_polygon = (QGraphicsItem *)scene.addPolygon(poly, QPen(color), QBrush(color));
+                obstacles_polygon->setZValue(13);
 
+            }
         }
-    }
+
+        // Marcamos las paredes como obstáculos
 }
 
 

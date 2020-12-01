@@ -4,22 +4,26 @@
 
 #ifndef PRACTICA5_GRID_H
 #define PRACTICA5_GRID_H
+#include <tuple>
+#include <iostream>
+#include <ostream>
 
-#define TAM 5000
+#define TAM 100
 
 struct Nodo{
     bool flag;
     int valor;
 };
 
-template <typename ValueType>
 class Grid {
     Nodo matrix[TAM][TAM];
+    int width = 5000;
+    int tile = 50;
 
 public:
     Grid();
     void set_occupied(int x, int y);
-    ValueType get_occupied(int x, int y);
+    bool get_occupied(int x, int y);
     std::tuple<int, int> transform(int x, int y);
 
 };

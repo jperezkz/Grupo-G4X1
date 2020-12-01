@@ -10,10 +10,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3fca2364-bb36-49b9-ad04-8f9f77745bfa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Grid.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Grid.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/etc/config" beforeDir="false" afterPath="$PROJECT_DIR$/etc/config" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CMakeListsSpecific.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/CMakeListsSpecific.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Grid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Grid.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Grid.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/Grid.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/specificmonitor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificmonitor.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/specificworker.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificworker.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/specificworker.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificworker.h" afterDir="false" />
     </list>
@@ -47,6 +49,13 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
+  <component name="RunManager">
+    <configuration default="true" type="GradleAppRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.cpp.gradle.execution.GradleNativeBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -70,6 +79,7 @@
       <workItem from="1606588226652" duration="3949000" />
       <workItem from="1606735995598" duration="1677000" />
       <workItem from="1606826571830" duration="88000" />
+      <workItem from="1606833461641" duration="6873000" />
     </task>
     <servers />
   </component>

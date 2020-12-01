@@ -62,13 +62,15 @@ private:
 	const int max_boxes = 10; //max number of boxes
 
 	// Fill grid
-    void fill_grid_with_obstacles ();
+	Grid grid;
+    void fill_grid_with_obstacles (Grid &grid);
 
 	 //draw
     QGraphicsScene scene;
     QGraphicsView *graphicsView;
     QGraphicsItem *robot_polygon = nullptr;
     QGraphicsItem *laser_polygon = nullptr;
+    QGraphicsItem *obstacles_polygon = nullptr;
     const float ROBOT_LENGTH = 400;
 
     void draw_things(const RoboCompGenericBase::TBaseState &bState, const RoboCompLaser::TLaserData &ldata, const std::vector<tupla> &puntos, const tupla &front);

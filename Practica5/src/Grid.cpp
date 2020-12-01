@@ -14,18 +14,28 @@ Grid::Grid(){
 }
 
 void Grid::set_occupied(int x, int y){
-    auto &[i, j] = transform(x, y);
-    matrix[i][j].flag = true;
+    auto [i, j] = transform(x, y);
+    if(i<0 or i>=TAM or j<0 or j>=TAM)
+    {
+        std::cout << "Indice fuera de rango" << std::endl;
+        return;
+    }
+        matrix[i][j].flag = true;
 }
 
-ValueType Grid::get_occupied(int x, int y){
-    auto &[i, j] = transform(x, y);
+bool Grid::get_occupied(int x, int y){
+    auto [i, j] = transform(x, y);
+    if(i<0 or i>=TAM or j<0 or j>=TAM)
+    {
+        std::cout << "Indice fuera de rango" << std::endl;
+        return false;
+    }
     return matrix[i][j].flag;
 }
 
 std::tuple<int, int> Grid::transform(int x, int y){
-    int i = (x/tile)P + (width/tile)/2;
-    int j = (y/tile) + (width/tile)/2;
+    int i = x/tile + (width/tile)/2;
+    int k = y/tile + (width/tile)/2;
 
-    return std::make_tuple(i, j);
+    return std::make_tuple(i, k);
 }
