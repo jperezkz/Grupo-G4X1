@@ -128,7 +128,6 @@ void SpecificWorker::compute()
 
     if(auto t = target.get(); t.has_value())
     {
-        qInfo() << "hola";
         T = t.value();
 
         // pasarlo al SR del robot
@@ -137,7 +136,9 @@ void SpecificWorker::compute()
         rot << cos(tBase.alpha), sin(tBase.alpha), -sin(tBase.alpha), cos(tBase.alpha);
         auto tr = rot.transpose() * (T - rw); // TARGET EN EL ROBOT
         auto dist = tr.norm(); 
-        
+
+        // Llamar a la función waveFront Propagation con el nuevo target
+
         if (dist < tresshold)
         {
             differentialrobot_proxy->setSpeedBase(0, 0);
@@ -290,6 +291,7 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
 
 void SpecificWorker::fill_grid_with_obstacles (Grid &grid)
 {
+
         for(int i=1; i<max_boxes; i++)
         {
             auto caja = "caja" + QString::number(i);
@@ -305,7 +307,6 @@ void SpecificWorker::fill_grid_with_obstacles (Grid &grid)
                 int depth = plane->width;
 
                 grid.set_occupied(x,z);
-
                 for(int i = x-width/2; i <= (x+width/2); i++)
                 {
                     for(int j = z-depth/2; j <= (z+depth/2); j++)
@@ -328,6 +329,22 @@ void SpecificWorker::fill_grid_with_obstacles (Grid &grid)
         }
 
         // Marcamos las paredes como obstáculos
+        for(int i=-1; i<=1; i+=2) {
+            QPolygonF paredVertical, paredHorizontal;
+            paredVertical << QPoint(2500*i, -2500)
+                      << QPoint(2480*i, -2500)
+                      << QPoint(2480*i, 2500)
+                      << QPoint(2500*i, 2500);
+            paredHorizontal << QPoint(-2500, 2500*i)
+                      << QPoint(-2500, 2480*i)
+                      << QPoint(2500, 2480*i)
+                      << QPoint(2500, 2500*i);
+            QColor color("Blue");
+            color.setAlpha(40);
+            obstacles_polygon = (QGraphicsItem *)scene.addPolygon(paredVertical, QPen(color), QBrush(color));
+            obstacles_polygon = (QGraphicsItem *)scene.addPolygon(paredHorizontal, QPen(color), QBrush(color));
+            obstacles_polygon->setZValue(13);
+        }
 }
 
 

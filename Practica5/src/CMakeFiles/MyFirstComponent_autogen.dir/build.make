@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/Practica5
+CMAKE_SOURCE_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/Practica5
+CMAKE_BINARY_DIR = /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5
 
 # Utility rule file for MyFirstComponent_autogen.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/salabeta/robocomp/components/Grupo-G4X1/Practica5
 include src/CMakeFiles/MyFirstComponent_autogen.dir/progress.make
 
 src/CMakeFiles/MyFirstComponent_autogen:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/salabeta/robocomp/components/Grupo-G4X1/Practica5/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target MyFirstComponent"
-	cd /home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src && /usr/bin/cmake -E cmake_autogen /home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src/CMakeFiles/MyFirstComponent_autogen.dir/AutogenInfo.json ""
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC and UIC for target MyFirstComponent"
+	cd /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src && /usr/bin/cmake -E cmake_autogen /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src/CMakeFiles/MyFirstComponent_autogen.dir/AutogenInfo.json ""
 
 MyFirstComponent_autogen: src/CMakeFiles/MyFirstComponent_autogen
 MyFirstComponent_autogen: src/CMakeFiles/MyFirstComponent_autogen.dir/build.make
@@ -68,10 +68,10 @@ src/CMakeFiles/MyFirstComponent_autogen.dir/build: MyFirstComponent_autogen
 .PHONY : src/CMakeFiles/MyFirstComponent_autogen.dir/build
 
 src/CMakeFiles/MyFirstComponent_autogen.dir/clean:
-	cd /home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src && $(CMAKE_COMMAND) -P CMakeFiles/MyFirstComponent_autogen.dir/cmake_clean.cmake
+	cd /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src && $(CMAKE_COMMAND) -P CMakeFiles/MyFirstComponent_autogen.dir/cmake_clean.cmake
 .PHONY : src/CMakeFiles/MyFirstComponent_autogen.dir/clean
 
 src/CMakeFiles/MyFirstComponent_autogen.dir/depend:
-	cd /home/salabeta/robocomp/components/Grupo-G4X1/Practica5 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/salabeta/robocomp/components/Grupo-G4X1/Practica5 /home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src /home/salabeta/robocomp/components/Grupo-G4X1/Practica5 /home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src /home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src/CMakeFiles/MyFirstComponent_autogen.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5 && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5 /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5 /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src /home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src/CMakeFiles/MyFirstComponent_autogen.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : src/CMakeFiles/MyFirstComponent_autogen.dir/depend
 

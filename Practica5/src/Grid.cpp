@@ -20,7 +20,7 @@ void Grid::set_occupied(int x, int y){
         std::cout << "Indice fuera de rango" << std::endl;
         return;
     }
-        matrix[i][j].flag = true;
+    matrix[i][j].flag = true;
 }
 
 bool Grid::get_occupied(int x, int y){
@@ -31,6 +31,26 @@ bool Grid::get_occupied(int x, int y){
         return false;
     }
     return matrix[i][j].flag;
+}
+
+void Grid::set_value(int x, int y, int valor) {
+    auto [i, j] = transform(x, y);
+    if(i<0 or i>=TAM or j<0 or j>=TAM)
+    {
+        std::cout << "Indice fuera de rango" << std::endl;
+        return false;
+    }
+    matrix[i][j].valor = valor;
+}
+
+int Grid::get_value(int x, int y) {
+    auto [i, j] = transform(x, y);
+    if(i<0 or i>=TAM or j<0 or j>=TAM)
+    {
+        std::cout << "Indice fuera de rango" << std::endl;
+        return false;
+    }
+    return matrix[i][j].valor;
 }
 
 std::tuple<int, int> Grid::transform(int x, int y){

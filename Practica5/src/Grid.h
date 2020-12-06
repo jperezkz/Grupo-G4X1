@@ -24,6 +24,8 @@ public:
     Grid();
     void set_occupied(int x, int y);
     bool get_occupied(int x, int y);
+    void set_value(int x, int y, int valor);
+    int get_value(int x, int y);
     std::tuple<int, int> transform(int x, int y);
 
 };
