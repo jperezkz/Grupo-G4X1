@@ -38,7 +38,7 @@ void Grid::set_value(int x, int y, int valor) {
     if(i<0 or i>=TAM or j<0 or j>=TAM)
     {
         std::cout << "Indice fuera de rango" << std::endl;
-        return false;
+        return;
     }
     matrix[i][j].valor = valor;
 }

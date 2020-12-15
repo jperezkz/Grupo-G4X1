@@ -137,7 +137,7 @@ void SpecificWorker::compute()
         auto tr = rot.transpose() * (T - rw); // TARGET EN EL ROBOT
         auto dist = tr.norm(); 
 
-        // Llamar a la función waveFront Propagation con el nuevo target
+        // Llamar a la función waveFront Propagation con el nuevo targe
 
         if (dist < tresshold)
         {
@@ -345,6 +345,12 @@ void SpecificWorker::fill_grid_with_obstacles (Grid &grid)
             obstacles_polygon = (QGraphicsItem *)scene.addPolygon(paredHorizontal, QPen(color), QBrush(color));
             obstacles_polygon->setZValue(13);
         }
+
+    QFont font;
+    font.setPixelSize(48);
+    QString s = "Hello";
+
+    obstacles_polygon = (QGraphicsItem *)scene.addText(s, font);
 }
 
 
