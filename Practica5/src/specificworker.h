@@ -30,7 +30,6 @@
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
 #include <Eigen/Dense>
-#include <QGraphicsView>
 #include <QGraphicsItem>
 #include "Grid.h"
 
@@ -52,6 +51,13 @@ public slots:
     std::vector<SpecificWorker::tupla> obstaculos(std::vector<tupla> vector, float aph, const RoboCompLaser::TLaserData &ldata);
 	int startup_check();
 	void initialize(int period);
+
+protected:
+    void resizeEvent(QResizeEvent * event)
+    {
+        graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
+    }
+
 
 private:
  	

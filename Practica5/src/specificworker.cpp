@@ -100,6 +100,7 @@ void SpecificWorker::initialize(int period)
     graphicsView->fitInView(scene.sceneRect(), Qt::KeepAspectRatio);
 
     fill_grid_with_obstacles(grid);
+    grid.create_graphic_items(scene, graphicsView);
 
     this->Period = period;
 	if(this->startup_check_flag)
@@ -345,12 +346,6 @@ void SpecificWorker::fill_grid_with_obstacles (Grid &grid)
             obstacles_polygon = (QGraphicsItem *)scene.addPolygon(paredHorizontal, QPen(color), QBrush(color));
             obstacles_polygon->setZValue(13);
         }
-
-    QFont font;
-    font.setPixelSize(48);
-    QString s = "Hello";
-
-    obstacles_polygon = (QGraphicsItem *)scene.addText(s, font);
 }
 
 
