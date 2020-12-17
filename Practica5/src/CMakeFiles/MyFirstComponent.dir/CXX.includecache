@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src/Grid.cpp
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src/Grid.cpp
 Grid.h
-/home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src/Grid.h
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src/Grid.h
 
-/home/salabeta/robocomp/components/Grupo-G4X1/Practica5/src/Grid.h
+/home/noel/robocomp/components/robocomp-robolab/components/Grupo-G4X1/Practica5/src/Grid.h
 tuple
 -
 iostream
@@ -20,6 +20,8 @@ QGraphicsRectItem
 QGraphicsTextItem
 -
 QGraphicsView
+-
+Eigen/Dense
 -
 ostream
 -

@@ -138,8 +138,9 @@ void SpecificWorker::compute()
         auto tr = rot.transpose() * (T - rw); // TARGET EN EL ROBOT
         auto dist = tr.norm(); 
 
-        // Llamar a la función waveFront Propagation con el nuevo targe
-
+        // Llamar a la función waveFront Propagation con el nuevo target
+        grid.compute_navigation_function(T);
+        /*
         if (dist < tresshold)
         {
             differentialrobot_proxy->setSpeedBase(0, 0);
@@ -169,6 +170,7 @@ void SpecificWorker::compute()
                 draw_things(tBase, ldata, nuevo, sigTarget);
             }
         }
+        */
     }
 }   
 

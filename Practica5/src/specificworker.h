@@ -29,7 +29,6 @@
 
 #include <genericworker.h>
 #include <innermodel/innermodel.h>
-#include <Eigen/Dense>
 #include <QGraphicsItem>
 #include "Grid.h"
 
