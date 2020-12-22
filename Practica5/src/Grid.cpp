@@ -7,10 +7,10 @@
 Grid::Grid(){
     width = 5000;
     tile = 100;
-    int x = -(width/2 - tile/2);
-    int y = -(width/2 - tile/2);
-    for (int i=0;i<TAM;i++){
-        for (int j=0;j<TAM;j++){
+    int x = -(width/2 - tile/2); // -2450
+    int y = (width/2 - tile/2); // 2450
+    for (int j=TAM-1;j>=0;j--){
+        for (int i=0;i<TAM;i++){
             matrix[i][j].flag = false;
             matrix[i][j].valor = -1;
             matrix[i][j].paint_cell = new QGraphicsRectItem();
@@ -23,7 +23,7 @@ Grid::Grid(){
             x += tile;
         }
         x = -(width/2 - tile/2);
-        y += tile;
+        y -= tile;
     }
 }
 
@@ -80,8 +80,8 @@ void Grid::create_graphic_items(QGraphicsScene &scene, QGraphicsView *view)
     QFont font("Bavaria");
     font.setPointSize(40);
     font.setWeight(QFont::TypeWriter);
-    for (int i=0;i<TAM;i++) {
-        for (int j = 0; j < TAM; j++) {
+    for (int j=TAM-1;j>=0;j--) {
+        for (int i=0; i<TAM; i++) {
             matrix[i][j].paint_cell = scene.addRect(-tile / 2, -tile / 2, tile, tile, QPen(QColor("DarkGreen")),
                                                     QBrush(fondo));
             matrix[i][j].paint_cell->setPos(matrix[i][j].cx, matrix[i][j].cy);
@@ -135,7 +135,7 @@ void Grid::compute_navigation_function(Eigen::Vector2f T)
 
 std::vector<Nodo> Grid::neighboors(Nodo v, int dist)
 {
-    std::vector<std::tuple<int, int>> lista_coor_de_vecinos{ {-1,-1}, {0,-1}, {1,-1}, {-1,0}, {1,0}, {-1,1}, {0,1}, {-1,1} };
+    std::vector<std::tuple<int, int>> lista_coor_de_vecinos{ {-1,-1}, {0,-1}, {1,-1}, {-1,0}, {1,0}, {-1,1}, {0,1}, {1,1} };
 
     std::vector<Nodo> lista;
     for(auto [k, l] : lista_coor_de_vecinos)
