@@ -34,7 +34,7 @@
 
 class SpecificWorker : public GenericWorker
 {
-	using tupla = std::tuple<float, float, float, float, float>;
+	using tupla = std::tuple<float, float, float, float, float, float>;
 Q_OBJECT
 public:
 	SpecificWorker(TuplePrx tprx, bool startup_check);
@@ -46,7 +46,7 @@ public slots:
 	void compute();
     void generarPoligono(QPolygonF &p, const RoboCompLaser::TLaserData ldata);
     void calculoPuntos(RoboCompGenericBase::TBaseState tBase, std::vector<tupla>&tuplas);
-    void ordenarPuntos(QPolygonF p, std::vector<tupla> &vector, Eigen::Vector2f T);
+    void ordenarPuntos(std::vector<tupla> vector, Eigen::Vector2f T, std::vector<tupla> &vectorResultados);
     std::vector<SpecificWorker::tupla> obstaculos(std::vector<tupla> vector, float aph, const RoboCompLaser::TLaserData &ldata);
 	int startup_check();
 	void initialize(int period);

@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_SpecificWorker_t {
-    QByteArrayData data[24];
-    char stringdata0[304];
+    QByteArrayData data[25];
+    char stringdata0[321];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -45,26 +45,27 @@ QT_MOC_LITERAL(10, 131, 5), // "tBase"
 QT_MOC_LITERAL(11, 137, 19), // "std::vector<tupla>&"
 QT_MOC_LITERAL(12, 157, 6), // "tuplas"
 QT_MOC_LITERAL(13, 164, 13), // "ordenarPuntos"
-QT_MOC_LITERAL(14, 178, 6), // "vector"
-QT_MOC_LITERAL(15, 185, 15), // "Eigen::Vector2f"
-QT_MOC_LITERAL(16, 201, 1), // "T"
-QT_MOC_LITERAL(17, 203, 10), // "obstaculos"
-QT_MOC_LITERAL(18, 214, 34), // "std::vector<SpecificWorker::t..."
-QT_MOC_LITERAL(19, 249, 18), // "std::vector<tupla>"
-QT_MOC_LITERAL(20, 268, 3), // "aph"
-QT_MOC_LITERAL(21, 272, 13), // "startup_check"
-QT_MOC_LITERAL(22, 286, 10), // "initialize"
-QT_MOC_LITERAL(23, 297, 6) // "period"
+QT_MOC_LITERAL(14, 178, 18), // "std::vector<tupla>"
+QT_MOC_LITERAL(15, 197, 6), // "vector"
+QT_MOC_LITERAL(16, 204, 15), // "Eigen::Vector2f"
+QT_MOC_LITERAL(17, 220, 1), // "T"
+QT_MOC_LITERAL(18, 222, 16), // "vectorResultados"
+QT_MOC_LITERAL(19, 239, 10), // "obstaculos"
+QT_MOC_LITERAL(20, 250, 34), // "std::vector<SpecificWorker::t..."
+QT_MOC_LITERAL(21, 285, 3), // "aph"
+QT_MOC_LITERAL(22, 289, 13), // "startup_check"
+QT_MOC_LITERAL(23, 303, 10), // "initialize"
+QT_MOC_LITERAL(24, 314, 6) // "period"
 
     },
     "SpecificWorker\0compute\0\0generarPoligono\0"
     "QPolygonF&\0p\0RoboCompLaser::TLaserData\0"
     "ldata\0calculoPuntos\0RoboCompGenericBase::TBaseState\0"
     "tBase\0std::vector<tupla>&\0tuplas\0"
-    "ordenarPuntos\0vector\0Eigen::Vector2f\0"
-    "T\0obstaculos\0std::vector<SpecificWorker::tupla>\0"
-    "std::vector<tupla>\0aph\0startup_check\0"
-    "initialize\0period"
+    "ordenarPuntos\0std::vector<tupla>\0"
+    "vector\0Eigen::Vector2f\0T\0vectorResultados\0"
+    "obstaculos\0std::vector<SpecificWorker::tupla>\0"
+    "aph\0startup_check\0initialize\0period"
 };
 #undef QT_MOC_LITERAL
 
@@ -86,18 +87,18 @@ static const uint qt_meta_data_SpecificWorker[] = {
        3,    2,   50,    2, 0x0a /* Public */,
        8,    2,   55,    2, 0x0a /* Public */,
       13,    3,   60,    2, 0x0a /* Public */,
-      17,    3,   67,    2, 0x0a /* Public */,
-      21,    0,   74,    2, 0x0a /* Public */,
-      22,    1,   75,    2, 0x0a /* Public */,
+      19,    3,   67,    2, 0x0a /* Public */,
+      22,    0,   74,    2, 0x0a /* Public */,
+      23,    1,   75,    2, 0x0a /* Public */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 4, 0x80000000 | 6,    5,    7,
     QMetaType::Void, 0x80000000 | 9, 0x80000000 | 11,   10,   12,
-    QMetaType::Void, QMetaType::QPolygonF, 0x80000000 | 11, 0x80000000 | 15,    5,   14,   16,
-    0x80000000 | 18, 0x80000000 | 19, QMetaType::Float, 0x80000000 | 6,   14,   20,    7,
+    QMetaType::Void, 0x80000000 | 14, 0x80000000 | 16, 0x80000000 | 11,   15,   17,   18,
+    0x80000000 | 20, 0x80000000 | 14, QMetaType::Float, 0x80000000 | 6,   15,   21,    7,
     QMetaType::Int,
-    QMetaType::Void, QMetaType::Int,   23,
+    QMetaType::Void, QMetaType::Int,   24,
 
        0        // eod
 };
@@ -111,7 +112,7 @@ void SpecificWorker::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _
         case 0: _t->compute(); break;
         case 1: _t->generarPoligono((*reinterpret_cast< QPolygonF(*)>(_a[1])),(*reinterpret_cast< const RoboCompLaser::TLaserData(*)>(_a[2]))); break;
         case 2: _t->calculoPuntos((*reinterpret_cast< RoboCompGenericBase::TBaseState(*)>(_a[1])),(*reinterpret_cast< std::vector<tupla>(*)>(_a[2]))); break;
-        case 3: _t->ordenarPuntos((*reinterpret_cast< QPolygonF(*)>(_a[1])),(*reinterpret_cast< std::vector<tupla>(*)>(_a[2])),(*reinterpret_cast< Eigen::Vector2f(*)>(_a[3]))); break;
+        case 3: _t->ordenarPuntos((*reinterpret_cast< std::vector<tupla>(*)>(_a[1])),(*reinterpret_cast< Eigen::Vector2f(*)>(_a[2])),(*reinterpret_cast< std::vector<tupla>(*)>(_a[3]))); break;
         case 4: { std::vector<SpecificWorker::tupla> _r = _t->obstaculos((*reinterpret_cast< std::vector<tupla>(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2])),(*reinterpret_cast< const RoboCompLaser::TLaserData(*)>(_a[3])));
             if (_a[0]) *reinterpret_cast< std::vector<SpecificWorker::tupla>*>(_a[0]) = std::move(_r); }  break;
         case 5: { int _r = _t->startup_check();

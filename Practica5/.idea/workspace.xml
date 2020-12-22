@@ -12,9 +12,13 @@
     <list default="true" id="3fca2364-bb36-49b9-ad04-8f9f77745bfa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/MyFirstComponent" beforeDir="false" afterPath="$PROJECT_DIR$/bin/MyFirstComponent" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/Grid.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/Grid.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/CXX.includecache" beforeDir="false" afterPath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/CXX.includecache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/MyFirstComponent_autogen/mocs_compilation.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/MyFirstComponent_autogen/mocs_compilation.cpp.o" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/specificworker.cpp.o" beforeDir="false" afterPath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent.dir/specificworker.cpp.o" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent_autogen.dir/ParseCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/CMakeFiles/MyFirstComponent_autogen.dir/ParseCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Grid.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/Grid.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/MyFirstComponent_autogen/EWIEGA46WW/moc_specificworker.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/MyFirstComponent_autogen/EWIEGA46WW/moc_specificworker.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/specificworker.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificworker.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/specificworker.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/specificworker.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,6 +80,7 @@
       <workItem from="1608060502988" duration="5116000" />
       <workItem from="1608233755988" duration="8795000" />
       <workItem from="1608632403840" duration="10150000" />
+      <workItem from="1608657882282" duration="7725000" />
     </task>
     <servers />
   </component>

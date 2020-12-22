@@ -116,7 +116,6 @@ void SpecificWorker::initialize(int period)
 
 void SpecificWorker::compute()
 {
-	
     RoboCompGenericBase::TBaseState tBase;
     differentialrobot_proxy->getBaseState(tBase);   
     RoboCompLaser::TLaserData ldata = laser_proxy->getLaserData();
@@ -124,7 +123,7 @@ void SpecificWorker::compute()
 	QPolygonF p;
     Eigen::Vector2f T(NULL, NULL);
 
-    std::vector<tupla> tuplas, nuevo;
+    std::vector<tupla> tuplas, nuevo, resultados;
     tupla sigTarget;
 
     if(auto t = target.get(); t.has_value())
@@ -140,11 +139,12 @@ void SpecificWorker::compute()
 
         // Llamar a la función waveFront Propagation con el nuevo target
         grid.compute_navigation_function(T);
-        /*
+
         if (dist < tresshold)
         {
             differentialrobot_proxy->setSpeedBase(0, 0);
             target.set_task_finished();
+            grid.reset_cell_distances();
             return;
         }
         else 
@@ -154,23 +154,22 @@ void SpecificWorker::compute()
                 generarPoligono(p, ldata);
                 calculoPuntos(tBase, tuplas);
                 nuevo = obstaculos(tuplas, tBase.alpha, ldata);
-                ordenarPuntos(p, nuevo, tr);
+                ordenarPuntos(nuevo, tr, resultados);
 
-                if(!nuevo.empty())    sigTarget = nuevo.front();
+                if(!resultados.empty())    sigTarget = resultados.front();
 
-                auto &[x,y,v,w,a] = sigTarget;
+                auto &[x,y,v,w,a,f] = sigTarget;
                 if (w > M_PI) w = M_PI;
                 if (w < -M_PI) w = -M_PI;
                 if (v < 0) v = 0;
 
-                std::cout << "Estoy en: " << tBase.x <<","<<tBase.z<<" y el obj en: "<<x<<","<<y<<endl;
+                std::cout << "Estoy en: " << tBase.x <<","<<tBase.z<<" y el objetivo en: "<<x<<","<<y<<endl;
                 std::cout << "VAplicada: " << std::min(v/5, 1000.f) << " RotAplicada: " << w << endl;
 
                 differentialrobot_proxy->setSpeedBase(std::min(v/5, 1000.f) , w);
-                draw_things(tBase, ldata, nuevo, sigTarget);
+                draw_things(tBase, ldata, resultados, sigTarget);
             }
         }
-        */
     }
 }   
 
@@ -201,7 +200,7 @@ void SpecificWorker::draw_things(const RoboCompGenericBase::TBaseState &bState, 
         scene.removeItem(arc);
     arcs_vector.clear();
     QColor col("Red");
-    for (auto &[x, y, vx, wx, a] : puntos)
+    for (auto &[x, y, vx, wx, a, f] : puntos)
     {
         QPointF centro = robot_polygon->mapToScene(x, y);
         arcs_vector.push_back(scene.addEllipse(centro.x(), centro.y(), 20, 20, QPen(col), QBrush(col)));
@@ -232,34 +231,55 @@ void SpecificWorker::calculoPuntos(RoboCompGenericBase::TBaseState tBase,std::ve
                         x = r - r * cos(aActual * dt);
                         y = r * sin(aActual * dt);
                         alpha = aActual * dt;
-                        tuplas.push_back(std::make_tuple(x, y, vActual, aActual, alpha));
+                        tuplas.push_back(std::make_tuple(x, y, vActual, aActual, alpha, 0));
                 }
                 else{
-                    tuplas.push_back(std::make_tuple(0, v * dt, vActual, aActual, aActual * dt));
+                    tuplas.push_back(std::make_tuple(0, v * dt, vActual, aActual, aActual * dt, 0));
                 }
             }
         }
     }
 }
 
-void SpecificWorker::ordenarPuntos(QPolygonF p, std::vector<tupla> &vector, Eigen::Vector2f T){
+void SpecificWorker::ordenarPuntos(std::vector<tupla> vector, Eigen::Vector2f T, std::vector<tupla> &vectorResultados){
+    float F, A, B, C;
+    float xPeso = 0.6, yPeso = 0.6, zPeso = 0.3;
+
+    for (auto &[x, y, a, g, ang, f] : vector) {
+        A = pow(x - T.x(), 2) + pow(y - T.y(), 2);
+        if (grid.get_occupied(x, y))
+            B = 1000;
+        else
+            B = grid.get_value(x, y);
+        C = ang;
+        F = A*xPeso + B*yPeso + C*zPeso;
+        vectorResultados.push_back(std::make_tuple(x, y, a, g, ang, F));
+    }
+
+    std::sort(vectorResultados.begin(), vectorResultados.end(), [](const auto &a, const auto &b) {
+        const auto &[ax, ay, av, aa, ap, af] = a;
+        const auto &[bx, by, bv, ba, bp, bf] = b;
+        return (af < bf);
+    });
+    /*
     std::sort(vector.begin(), vector.end(), [T](const auto &a, const auto &b) {
         const auto &[ax, ay, av, aa, ap] = a;
         const auto &[bx, by, bv, ba, bp] = b;
         return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
     });
+     */
 }
 
 
 std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla> vector, float aph, const RoboCompLaser::TLaserData &ldata)
 {
     QPolygonF polygonF;
-    const float semiancho = 300; // el semiancho del robot
+    const float semiancho = 200; // el semiancho del robot
     std::vector<tupla> vectorOBs;
     for (auto &l : ldata)
         polygonF << QPointF(l.dist * sin(l.angle), l.dist * cos(l.angle));
 
-    for (auto &[x, y, a, g, ang] : vector) {
+    for (auto &[x, y, a, g, ang, f] : vector) {
 
         // GENERAR UN CUADRADO CON EL CENTRO EN X, Y Y ORIENTACION ANG.
         QPolygonF polyRobot;
@@ -285,7 +305,7 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
         if (cuatroEsquinas) {
             // qDebug() << "CuatroEsquinas es true";
             //    std::cout << FUNCTION << " " << x << " " << y << " " << a << " " << g << " " << ang << std::endl;
-            vectorOBs.emplace_back(std::make_tuple(x, y, a, g, ang));
+            vectorOBs.emplace_back(std::make_tuple(x, y, a, g, ang, f));
         }
     }
     return vectorOBs;
