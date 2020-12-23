@@ -29,42 +29,38 @@ Grid::Grid(){
 
 void Grid::set_occupied(int x, int y){
     auto [i, j] = transform(x, y);
-    if(i<0 or i>=TAM or j<0 or j>=TAM)
-    {
+    if(is_in_limits(i, j))
+        matrix[i][j].flag = true;
+    else
         std::cout << "Indice fuera de rango" << std::endl;
-        return;
-    }
-    matrix[i][j].flag = true;
 }
 
 bool Grid::get_occupied(int x, int y){
     auto [i, j] = transform(x, y);
-    if(i<0 or i>=TAM or j<0 or j>=TAM)
-    {
+    if(is_in_limits(i, j))
+        return matrix[i][j].flag;
+    else
         std::cout << "Indice fuera de rango" << std::endl;
-        return false;
-    }
-    return matrix[i][j].flag;
+    return false;
 }
 
 void Grid::set_value(int i, int j, int valor) {
-    if(i<0 or i>=TAM or j<0 or j>=TAM)
+    if(is_in_limits(i, j))
     {
-        std::cout << "Indice fuera de rango" << std::endl;
-        return;
+        matrix[i][j].valor = valor;
+        matrix[i][j].text_cell->setPlainText(QString::number(valor));
     }
-    matrix[i][j].valor = valor;
-    matrix[i][j].text_cell->setPlainText(QString::number(valor));
+    else
+        std::cout << "Indice fuera de rango" << std::endl;
 }
 
 int Grid::get_value(int x, int y) {
     auto [i, j] = transform(x, y);
-    if(i<0 or i>=TAM or j<0 or j>=TAM)
-    {
+    if(is_in_limits(i, j))
+        return matrix[i][j].valor;
+    else
         std::cout << "Indice fuera de rango" << std::endl;
-        return false;
-    }
-    return matrix[i][j].valor;
+    return false;
 }
 
 std::tuple<int, int> Grid::transform(int x, int y){
@@ -154,8 +150,8 @@ std::vector<Nodo> Grid::neighboors(Nodo v, int dist)
 
 
 void Grid::reset_cell_distances()    {
-    for (int i=0;i<TAM;i++){
-        for (int j=0;j<TAM;j++){
+    for (int j=TAM-1;j>=0;j--) {
+        for (int i=0; i<TAM; i++) {
             matrix[i][j].valor = -1;
             matrix[i][j].text_cell->setPlainText(QString::number(-1));
         }

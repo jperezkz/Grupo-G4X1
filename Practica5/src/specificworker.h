@@ -47,7 +47,7 @@ public slots:
     void generarPoligono(QPolygonF &p, const RoboCompLaser::TLaserData ldata);
     void calculoPuntos(RoboCompGenericBase::TBaseState tBase, std::vector<tupla>&tuplas);
     void ordenarPuntos(std::vector<tupla> vector, Eigen::Vector2f T, std::vector<tupla> &vectorResultados);
-    std::vector<SpecificWorker::tupla> obstaculos(std::vector<tupla> vector, float aph, const RoboCompLaser::TLaserData &ldata);
+    std::vector<SpecificWorker::tupla> obstaculos(std::vector<tupla> vector,  float aph, const RoboCompLaser::TLaserData &ldata);
 	int startup_check();
 	void initialize(int period);
 

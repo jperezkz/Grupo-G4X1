@@ -164,9 +164,9 @@ void SpecificWorker::compute()
                 if (v < 0) v = 0;
 
                 std::cout << "Estoy en: " << tBase.x <<","<<tBase.z<<" y el objetivo en: "<<x<<","<<y<<endl;
-                std::cout << "VAplicada: " << std::min(v/5, 1000.f) << " RotAplicada: " << w << endl;
+                std::cout << "VAplicada: " << std::min(v/3, 1000.f) << " RotAplicada: " << w << endl;
 
-                differentialrobot_proxy->setSpeedBase(std::min(v/5, 1000.f) , w);
+                differentialrobot_proxy->setSpeedBase(std::min(v/3, 1000.f) , w);
                 draw_things(tBase, ldata, resultados, sigTarget);
             }
         }
@@ -189,7 +189,7 @@ void SpecificWorker::draw_things(const RoboCompGenericBase::TBaseState &bState, 
     QPolygonF poly;
     for (auto &l : ldata)
         poly << robot_polygon->mapToScene(QPointF(l.dist * sin(l.angle), l.dist * cos(l.angle)));
-    QColor color("LightGreen");
+    QColor color("Green");
     color.setAlpha(40);
     laser_polygon = scene.addPolygon(poly, QPen(color), QBrush(color));
     laser_polygon->setZValue(13);
@@ -243,7 +243,7 @@ void SpecificWorker::calculoPuntos(RoboCompGenericBase::TBaseState tBase,std::ve
 
 void SpecificWorker::ordenarPuntos(std::vector<tupla> vector, Eigen::Vector2f T, std::vector<tupla> &vectorResultados){
     float F, A, B, C;
-    float xPeso = 0.6, yPeso = 0.6, zPeso = 0.3;
+    float xPeso = 0.1, yPeso = 0.9, zPeso = 0.3;
 
     for (auto &[x, y, a, g, ang, f] : vector) {
         A = pow(x - T.x(), 2) + pow(y - T.y(), 2);
@@ -261,20 +261,13 @@ void SpecificWorker::ordenarPuntos(std::vector<tupla> vector, Eigen::Vector2f T,
         const auto &[bx, by, bv, ba, bp, bf] = b;
         return (af < bf);
     });
-    /*
-    std::sort(vector.begin(), vector.end(), [T](const auto &a, const auto &b) {
-        const auto &[ax, ay, av, aa, ap] = a;
-        const auto &[bx, by, bv, ba, bp] = b;
-        return (pow(ax - T.x(), 2) + pow(ay - T.y(), 2) < pow(bx - T.x(), 2) + pow(by - T.y(), 2));
-    });
-     */
 }
 
 
 std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla> vector, float aph, const RoboCompLaser::TLaserData &ldata)
 {
     QPolygonF polygonF;
-    const float semiancho = 200; // el semiancho del robot
+    const float semiancho = 250; // el semiancho del robot
     std::vector<tupla> vectorOBs;
     for (auto &l : ldata)
         polygonF << QPointF(l.dist * sin(l.angle), l.dist * cos(l.angle));
@@ -307,6 +300,11 @@ std::vector<SpecificWorker::tupla> SpecificWorker::obstaculos(std::vector<tupla>
             //    std::cout << FUNCTION << " " << x << " " << y << " " << a << " " << g << " " << ang << std::endl;
             vectorOBs.emplace_back(std::make_tuple(x, y, a, g, ang, f));
         }
+    }
+
+    if (vectorOBs.empty()) {
+        differentialrobot_proxy->setSpeedBase(5, M_PI/2);
+        usleep(1000000);
     }
     return vectorOBs;
 }
